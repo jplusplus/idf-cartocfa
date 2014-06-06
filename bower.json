@@ -1,0 +1,16 @@
+{
+  "name": "idf-cartocfa",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "~3.0.3",
+    "modernizr": "~2.6.2",
+    "jquery": "~1.11.0",
+    "angular": "~1.2.16",
+    "angular-route": "~1.2.16",
+    "angular-sanitize": "~1.2.16",
+    "angular-animate": "~1.2.16",
+    "angular-leaflet-directive": "~0.7.7",
+    "angular-resource": "~1.2.16"
+  },
+  "devDependencies": {}
+}
