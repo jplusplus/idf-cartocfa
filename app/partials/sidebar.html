@@ -1,0 +1,152 @@
+<div class="sidebar" ng-controller="SidebarCtrl">
+    <div class="sidebar__banner">    
+        <h1>Les CFA<br /> de votre région</h1>
+    </div>
+
+    <form class="sidebar__filter sidebar__filter--search-name">
+        <h4 class="sidebar__filter__title" ng-click="toggleFilter('search-name')">
+            Rechercher un CFA par son nom
+        </h4>
+        <a class="sidebar__filter__toggler"></a>
+        <div class="sidebar__filter__workspace" ng-show="shouldShowFilter('search-name')">
+            <p>
+                Localisez-le sur la carte<br />et découvrez son offre de filières
+            </p>
+            <div class="form-inline" role="form">
+                <div class="form-group">
+                    <label class="sr-only" for="search-name-input">Nom du CFA...</label>
+                    <input type="text" class="form-control" id="search-name-input" placeholder="Nom du CFA...">
+                </div>
+                <button type="submit" class="btn btn-primary">Chercher</button>
+            </div>
+        </div>
+    </form>
+    <form class="sidebar__filter sidebar__filter--search-place">
+        <h4 class="sidebar__filter__title" ng-click="toggleFilter('search-place')">
+            Trouver les CFA près de chez vous
+        </h4>
+        <a class="sidebar__filter__toggler"></a>
+        <div class="sidebar__filter__workspace" ng-show="shouldShowFilter('search-place')">
+            <p>
+                Entrez vous adresse pour trouver les établissements<br />
+                près de chez vous.
+            </p>
+            <div class="form-inline" role="form">
+                <div class="form-group">
+                    <label class="sr-only" for="search-place-input">Votre adresse...</label>
+                    <input type="text" class="form-control" id="search-place-input" placeholder="Votre adresse...">
+                </div>
+                <button type="submit" class="btn btn-primary">Chercher</button>
+            </div>
+        </div>
+    </form>
+    <form class="sidebar__filter sidebar__filter--search-sector">
+        <h4 class="sidebar__filter__title" ng-click="toggleFilter('search-sector')">
+            Découvrir les filières
+        </h4>
+        <a class="sidebar__filter__toggler"></a>            
+        <div class="sidebar__filter__workspace" ng-show="shouldShowFilter('search-sector')">
+            <p>
+                Affichez les établissements correspondant<br />
+                aux critères de votre choix.
+            </p>
+            <div class="form-horizontal" role="form">
+                <div class="form-group clearfix">
+                    <label for="sector-input" class="col-xs-4 sidebar__filter__workspace__label control-label">
+                        Secteur<br />professionel
+                    </label>
+                    <div class="col-xs-6 sidebar__filter__workspace__dropdown">
+                        <button ng-click="toggleSector('sector')" 
+                                type="button" 
+                                class="btn btn-block btn-default" id="sector-input"> 
+                            Tous secteurs
+                        </button>
+                        <div class="panel sidebar__filter__workspace__dropdown__panel"
+                             ng-show="shouldShowSector('sector')"> 
+                            <h5 class="sidebar__filter__workspace__dropdown__panel__header"
+                                ng-click="toggleSector('sector')">
+                                Tous secteurs
+                            </h5>
+                            <ul class="list-unstyled sidebar__filter__workspace__dropdown__panel__list">
+                                <li ng-repeat="name in sectors">
+                                    <a ng-click="filterBy('sector', name)">
+                                        {{name}}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xs-1">
+                        <button type="button" class="btn sidebar__filter__workspace__remove">
+                            X
+                        </button>
+                    </div>
+                </div>                
+                <div class="form-group clearfix">
+                    <label for="filiere-input" class="col-xs-4 sidebar__filter__workspace__label control-label">
+                        Filière
+                    </label>
+                    <div class="col-xs-6 sidebar__filter__workspace__dropdown">
+                        <button ng-click="toggleSector('filiere')" 
+                                type="button"
+                                class="btn btn-block btn-default"
+                                id="filiere-input">                            
+                            Toutes filières
+                        </button>
+                        <div class="panel sidebar__filter__workspace__dropdown__panel"
+                             ng-show="shouldShowSector('filiere')"> 
+                            <h5 class="sidebar__filter__workspace__dropdown__panel__header"
+                                ng-click="toggleSector('filiere')">
+                                Toutes filières
+                            </h5>                           
+                            <ul class="list-unstyled sidebar__filter__workspace__dropdown__panel__list">
+                                <li ng-repeat="name in filieres">
+                                    <a ng-click="filterBy('filiere', name)">
+                                        {{name}}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xs-1">
+                        <button type="button" class="btn sidebar__filter__workspace__remove">
+                            X
+                        </button>
+                    </div>
+                </div>                
+                <div class="form-group clearfix">
+                    <label for="level-input" class="col-xs-4 sidebar__filter__workspace__label control-label">
+                        Niveau
+                    </label>
+                    <div class="col-xs-6 sidebar__filter__workspace__dropdown">
+                        <button ng-click="toggleSector('level')" 
+                                type="button" 
+                                class="btn btn-block btn-default" 
+                                id="level-input">                            
+                            Tous niveaux
+                        </button>
+                        <div class="panel sidebar__filter__workspace__dropdown__panel"
+                             ng-show="shouldShowSector('level')">         
+                            <h5 class="sidebar__filter__workspace__dropdown__panel__header"
+                                ng-click="toggleSector('level')">
+                                Tous niveaux
+                            </h5>                   
+                            <ul class="list-unstyled sidebar__filter__workspace__dropdown__panel__list">
+                                <li ng-repeat="name in levels">
+                                    <a ng-click="filterBy('level', name)">
+                                        {{name}}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xs-1">
+                        <button type="button" class="btn sidebar__filter__workspace__remove">
+                            X
+                        </button>
+                    </div>
+                </div>                
+            </div>
+        </div>        
+    </form>
+</div>

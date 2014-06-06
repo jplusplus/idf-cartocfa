@@ -28,6 +28,29 @@ module.exports = function (grunt) {
         // Project settings
         config: config,
 
+        // Convert CSVs to JSON
+        convert: {
+            options: {
+                explicitArray: false,
+            },
+            csv2json: {
+                files: [
+                    {
+                        src: ['<%= config.app %>/data/degree.csv'],
+                        dest: '<%= config.app %>/data/degree.json'
+                    },
+                    {
+                        src: ['<%= config.app %>/data/rne-coord.csv'],
+                        dest: '<%= config.app %>/data/rne-coord.json'
+                    },
+                    {
+                        src: ['<%= config.app %>/data/training.csv'],
+                        dest: '<%= config.app %>/data/training.json'
+                    }
+                ]
+            }
+        },
+
         // Watches files for changes and runs tasks based on the changed files
         watch: {
             bower: {
@@ -183,7 +206,7 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     cwd: '<%= config.app %>/styles',
-                    src: '*.less',
+                    src: 'main.less',
                     dest: '.tmp/styles',
                     ext: '.css'
                 }]
@@ -197,7 +220,7 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     cwd: '<%= config.app %>/styles',
-                    src: '*.less',
+                    src: 'main.less',
                     dest: '.tmp/styles',
                     ext: '.css'
                 }]
@@ -239,7 +262,6 @@ module.exports = function (grunt) {
                         '<%= config.dist %>/scripts/{,*/}*.js',
                         '<%= config.dist %>/styles/{,*/}*.css',
                         '<%= config.dist %>/images/{,*/}*.*',
-                        '<%= config.dist %>/styles/fonts/{,*/}*.*',
                         '<%= config.dist %>/*.{ico,png}'
                     ]
                 }
@@ -345,7 +367,6 @@ module.exports = function (grunt) {
                     dest: '<%= config.dist %>',
                     src: [
                         '*.{ico,png,txt}',
-                        '.htaccess',
                         'images/{,*/}*.webp',
                         '{,*/}*.html',
                         'styles/fonts/{,*/}*.*'
@@ -354,6 +375,16 @@ module.exports = function (grunt) {
                     expand: true,
                     dot: true,
                     cwd: './bower_components/bootstrap/dist/fonts/',
+                    src: ['*.*'],
+                    dest: '<%= config.dist %>/styles/fonts'
+                }, {
+                    expand: true,
+                    cwd: '<%= config.app %>/data/',
+                    src: ['*.json'],
+                    dest: '<%= config.dist %>/data/'
+                }, {
+                    expand: true,
+                    cwd: '<%= config.app %>/styles/fonts/',
                     src: ['*.*'],
                     dest: '<%= config.dist %>/styles/fonts'
                 }]
@@ -416,6 +447,7 @@ module.exports = function (grunt) {
             'concurrent:server',
             'autoprefixer',
             'connect:livereload',
+            'convert',
             'watch'
         ]);
     });
@@ -448,6 +480,7 @@ module.exports = function (grunt) {
         'concat',
         'cssmin',
         'uglify',
+        'convert',
         'copy:dist',
         'modernizr',
         'rev',

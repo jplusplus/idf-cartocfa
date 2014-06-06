@@ -1,0 +1,17 @@
+.animation(@animation) {
+  -webkit-animation: @animation;
+     -moz-animation: @animation;
+      -ms-animation: @animation;
+       -o-animation: @animation;
+          animation: @animation;
+}
+
+.well-header(@margin) {
+  margin:-1px * @margin;
+  margin-bottom:@margin;
+  padding:@margin;
+  padding-bottom:0;
+  border-bottom:1px solid rgba(0, 0, 0, 0.1); 
+  position:relative;
+  .box-shadow(0 1px 0 0 white)
+}

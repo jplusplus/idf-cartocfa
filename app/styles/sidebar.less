@@ -1,0 +1,103 @@
+.sidebar {
+    width: @sidebar-width;
+    position:absolute;
+    left:0;
+    top:0;
+    bottom:0;
+    background:#fff;
+
+
+    &__banner {
+        background:@brand-primary;
+        color:white;
+        display: block;    
+        margin:0;
+        padding:20px;    
+
+        h1 {
+            font-size:120%;
+            text-align: center;
+        }
+    }
+
+    &__filter {
+        padding:10px 15px;
+        background: url("/images/accordeon-fond.png") repeat-x left bottom;
+        position:relative;
+
+        &__title {
+            padding:2px 0;
+            margin:0;
+            font-size:110%;
+            color:@brand-primary;
+            cursor: pointer;
+            position: relative;
+            z-index:20;
+        }
+
+        &__toggler {
+            position:absolute;
+            right:10px;
+            top:10px;
+            background:@brand-primary;
+            width:15px;
+            height:15px;
+            display: block;
+            z-index:10;
+        }
+
+        &__workspace {
+            padding-bottom:10px;
+
+            &__label.control-label {
+                text-transform: uppercase;
+                font-size:90%;
+                color:@brand-primary;
+                font-weight: normal; 
+                text-align: left;
+            }
+
+            &__remove {
+                background:url("/images/remove.png") no-repeat center center;
+                background-size: auto auto;
+                .hide-text();
+                width:11px;
+                height:35px;
+                position:relative;
+                z-index:10;
+            }
+
+            &__dropdown {
+                position:relative;
+
+                &__panel {
+                    position:absolute;
+                    min-width: 120%;
+                    top:0;
+                    left:0;
+                    padding:0 10px;
+                    z-index:20;
+                    .box-shadow(0 0 5px fade(#000, 60));
+
+                    &__header {
+                        border-bottom:1px solid @text-color;
+                        padding-bottom:5px;
+                        cursor:pointer;
+                    }
+
+                    &__list {
+                        max-height: 200px;
+                        overflow: auto;
+                        a {
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+
+            .form-group {
+                height:35px;
+            }            
+        }
+    }
+}

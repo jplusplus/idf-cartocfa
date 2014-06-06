@@ -1,6 +1,28 @@
-<!doctype html>
-<html class="no-js" ng-app="app">
-    <head>
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html ng-app="app" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html ng-app="app" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html ng-app="app" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html ng-app="app" class="no-js"> <!--<![endif]-->    
+    <head>    
+        <!--░░░░▄░░░░░░░░░░░░░░▄░░░░░
+        ░░░░░░░░▌▒█░░░░░░░░░░░▄▀▒▌░░░
+        ░J++░░░░▌▒▒█░░░░░░░░▄▀▒▒▒▐░░░
+        ░░░░░░░▐▄▀▒▒▀▀▀▀▄▄▄▀▒▒▒▒▒▐░░░
+        ░░░░░▄▄▀▒░▒▒▒▒▒▒▒▒▒█▒▒▄█▒▐░░░
+        ░░░▄▀▒▒▒░░░▒▒▒░░░▒▒▒▀██▀▒▌░░░
+        ░░▐▒▒▒▄▄▒▒▒▒░░░▒▒▒▒▒▒▒▀▄▒▒▌░░
+        ░░▌░░▌█▀▒▒▒▒▒▄▀█▄▒▒▒▒▒▒▒█▒▐░░
+        ░▐░░░▒▒▒▒▒▒▒▒▌██▀▒▒░░░▒▒▒▀▄▌░
+        ░▌░▒▄██▄▒▒▒▒▒▒▒▒▒░░░░░░▒▒▒▒▌░
+        ▀▒▀▐▄█▄█▌▄░▀▒▒░░░░░░░░░░▒▒▒▐░
+        ▐▒▒▐▀▐▀▒░▄▄▒▄▒▒▒▒▒▒░▒░▒░▒▒▒▒▌
+        ▐▒▒▒▀▀▄▄▒▒▒▄▒▒▒▒▒▒▒▒░▒░▒░▒▒▐░
+        ░▌▒▒▒▒▒▒▀▀▀▒▒▒▒▒▒░▒░▒░▒░▒▒▒▌░
+        ░▐▒▒▒▒▒▒▒▒▒▒▒▒▒▒░▒░▒░▒▒▄▒▒▐░░
+        ░░▀▄▒▒▒▒▒▒▒▒▒▒▒░▒░▒░▒▄▒▒▒▒▌░░
+        ░░░░▀▄▒▒▒▒▒▒▒▒▒▒▄▄▄▀▒▒▒▒▄▀░░░
+        ░░░░░░▀▄▄▄▄▄▄▀▀▀▒▒▒▒▒▄▄▀░░░░░
+        ░░░░░░░░░▒▒▒▒▒▒▒▒▒▒▀▀░░░░░-->
         <meta charset="utf-8">
         <title>Carto CFA - IDF</title>
         <meta name="description" content="">
@@ -20,7 +42,10 @@
         <!-- endbuild -->
 
     </head>
-    <body>
+    <body ng-controller="MainCtrl">
+
+        <div ng-include="'partials/sidebar.html'"></div>
+        <div ng-include="'partials/map.html'"></div>
 
         <!-- build:js scripts/vendor.js -->
         <!-- bower:js -->
@@ -32,6 +57,7 @@
         <script src="../bower_components/leaflet-dist/leaflet.js"></script>
         <script src="../bower_components/angular-leaflet-directive/dist/angular-leaflet-directive.js"></script>
         <script src="../bower_components/angular-resource/angular-resource.js"></script>
+        <script src="../bower_components/underscore/underscore.js"></script>
         <!-- endbower -->
         <!-- endbuild -->
 
@@ -49,7 +75,11 @@
         <!-- endbuild -->
 
         <!-- build:js({app,.tmp}) scripts/main.js -->
-        <script src="scripts/main.js"></script>
+        <script src="scripts/app.js"></script>
+        <script src="scripts/services/Filters.js"></script>
+        <script src="scripts/services/Trainings.js"></script>
+        <script src="scripts/controllers/MainCtrl.js"></script>
+        <script src="scripts/controllers/SidebarCtrl.js"></script>
         <!-- endbuild -->
 </body>
 </html>
