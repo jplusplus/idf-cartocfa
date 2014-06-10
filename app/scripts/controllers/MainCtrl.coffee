@@ -11,7 +11,6 @@ class MainCtrl
             zoom: 11
         # Default markers objects
         @scope.markers   = @Trainings.markers
-        @scope.trainings = []
         # ──────────────────────────────────────────────────────────────────────
         # Methods available within the scope
         # ──────────────────────────────────────────────────────────────────────
