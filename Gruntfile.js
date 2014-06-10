@@ -36,16 +36,16 @@ module.exports = function (grunt) {
             csv2json: {
                 files: [
                     {
-                        src: ['<%= config.app %>/data/degree.csv'],
-                        dest: '<%= config.app %>/data/degree.json'
+                        src: ['<%= config.app %>/data/degree-places.csv'],
+                        dest: '<%= config.app %>/data/degree-places.json'
                     },
                     {
                         src: ['<%= config.app %>/data/rne-coord.csv'],
                         dest: '<%= config.app %>/data/rne-coord.json'
                     },
                     {
-                        src: ['<%= config.app %>/data/training.csv'],
-                        dest: '<%= config.app %>/data/training.json'
+                        src: ['<%= config.app %>/data/degree-details.csv'],
+                        dest: '<%= config.app %>/data/degree-details.json'
                     }
                 ]
             }

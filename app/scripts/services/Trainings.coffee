@@ -32,20 +32,25 @@ angular.module("app.service").factory("Trainings", [
                     # Look into each marker
                     angular.forEach @markers.all, (marker, rne)=>
                         # Filter to only keep degrees related to this place
-                        marker.meta.degrees = _.where @degrees, rne: rne
+                        marker.degrees = _.where @degrees, rne: rne
                         # Extract individuals (sector, level, filiere)
                         # for this places and according its degrees
-                        angular.forEach marker.meta.degrees, (degree)=>
+                        angular.forEach marker.degrees, (degree)=>
+                            # Find details of the given degree
                             details = _.findWhere @details, id: degree.id
-
-
-
-
+                            # Records individuals
+                            unless _.contains(marker.sectors, details.sector)
+                                marker.sectors.push(details.sector)
+                            unless _.contains(marker.filieres, details.filiere)
+                                marker.filieres.push(details.filiere)
+                            unless _.contains(marker.levels, details.level)
+                                marker.levels.push(details.level)
 
             # Update the marker array with the
             updateMarkers: =>
+                console.log @Filters
 
-
+            # Creates every markers
             generateMarkers: (data)=>
                 all = {}
 
@@ -55,18 +60,18 @@ angular.module("app.service").factory("Trainings", [
                         lng   : 1*place.lng
                         icon  : icons.default
                         # Meta data bind to the marker
-                        meta  :
-                            rne     : place.rne
-                            degrees : []
-                            sectors : []
-                            filieres: []
-                            levels  : []
+                        rne     : place.rne
+                        degrees : []
+                        sectors : []
+                        filieres: []
+                        levels  : []
 
 
                 angular.extend @markers,
                     all     : all
                     filtered: all
 
+            # Generates a tree of trainings sectors, filieres and levels
             generateTree: (data)=>
                 @details = data
                 sectors   = _.uniq(_.pluck(data, 'sector'))
