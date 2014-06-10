@@ -100,6 +100,7 @@ module.exports = function (grunt) {
             },
             livereload: {
                 options: {
+                    livereloadOnError: false,
                     middleware: function(connect) {
                         return [
                             connect.static('.tmp'),

@@ -1,5 +1,5 @@
 <div class="sidebar" ng-controller="SidebarCtrl">
-    <div class="sidebar__banner">    
+    <div class="sidebar__banner">
         <h1>Les CFA<br /> de votre région</h1>
     </div>
 
@@ -44,7 +44,7 @@
         <h4 class="sidebar__filter__title" ng-click="toggleFilter('search-sector')">
             Découvrir les filières
         </h4>
-        <a class="sidebar__filter__toggler"></a>            
+        <a class="sidebar__filter__toggler"></a>
         <div class="sidebar__filter__workspace" ng-show="shouldShowFilter('search-sector')">
             <p>
                 Affichez les établissements correspondant<br />
@@ -56,97 +56,106 @@
                         Secteur<br />professionel
                     </label>
                     <div class="col-xs-6 sidebar__filter__workspace__dropdown">
-                        <button ng-click="toggleSector('sector')" 
-                                type="button" 
-                                class="btn btn-block btn-default" id="sector-input"> 
-                            Tous secteurs
+                        <button ng-click="toggleSector('sector')"
+                                type="button"
+                                class="btn btn-block btn-default" id="sector-input">
+                            {{getActiveSector('Tous secteurs') | characters:20 }}
                         </button>
                         <div class="panel sidebar__filter__workspace__dropdown__panel"
-                             ng-show="shouldShowSector('sector')"> 
+                             ng-show="shouldShowSector('sector')">
                             <h5 class="sidebar__filter__workspace__dropdown__panel__header"
                                 ng-click="toggleSector('sector')">
                                 Tous secteurs
                             </h5>
                             <ul class="list-unstyled sidebar__filter__workspace__dropdown__panel__list">
-                                <li ng-repeat="name in sectors">
-                                    <a ng-click="filterBy('sector', name)">
-                                        {{name}}
+                                <li ng-repeat="sector in getSectors()">
+                                    <a ng-click="filterBy('sector', sector.name)">
+                                        {{sector.name}}
                                     </a>
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-xs-1">
-                        <button type="button" class="btn sidebar__filter__workspace__remove">
+                        <button type="button"
+                                class="btn sidebar__filter__workspace__remove"
+                                ng-show="filters.active('sector')"
+                                ng-click="removeFilter('sector')">
                             X
                         </button>
                     </div>
-                </div>                
-                <div class="form-group clearfix">
+                </div>
+                <div class="form-group clearfix" ng-if="getFilieres()">
                     <label for="filiere-input" class="col-xs-4 sidebar__filter__workspace__label control-label">
                         Filière
                     </label>
                     <div class="col-xs-6 sidebar__filter__workspace__dropdown">
-                        <button ng-click="toggleSector('filiere')" 
+                        <button ng-click="toggleSector('filiere')"
                                 type="button"
                                 class="btn btn-block btn-default"
-                                id="filiere-input">                            
-                            Toutes filières
+                                id="filiere-input">
+                            {{getActiveFiliere('Toutes filières') | characters:20 }}
                         </button>
                         <div class="panel sidebar__filter__workspace__dropdown__panel"
-                             ng-show="shouldShowSector('filiere')"> 
+                             ng-show="shouldShowSector('filiere')">
                             <h5 class="sidebar__filter__workspace__dropdown__panel__header"
                                 ng-click="toggleSector('filiere')">
                                 Toutes filières
-                            </h5>                           
+                            </h5>
                             <ul class="list-unstyled sidebar__filter__workspace__dropdown__panel__list">
-                                <li ng-repeat="name in filieres">
-                                    <a ng-click="filterBy('filiere', name)">
-                                        {{name}}
+                                <li ng-repeat="filiere in getFilieres()">
+                                    <a ng-click="filterBy('filiere', filiere.name)">
+                                        {{filiere.name}}
                                     </a>
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-xs-1">
-                        <button type="button" class="btn sidebar__filter__workspace__remove">
+                        <button type="button"
+                                class="btn sidebar__filter__workspace__remove"
+                                ng-show="filters.active('filiere')"
+                                ng-click="removeFilter('filiere')">
                             X
                         </button>
                     </div>
-                </div>                
-                <div class="form-group clearfix">
+                </div>
+                <div class="form-group clearfix" ng-if="getLevels()">
                     <label for="level-input" class="col-xs-4 sidebar__filter__workspace__label control-label">
                         Niveau
                     </label>
                     <div class="col-xs-6 sidebar__filter__workspace__dropdown">
-                        <button ng-click="toggleSector('level')" 
-                                type="button" 
-                                class="btn btn-block btn-default" 
-                                id="level-input">                            
-                            Tous niveaux
+                        <button ng-click="toggleSector('level')"
+                                type="button"
+                                class="btn btn-block btn-default"
+                                id="level-input">
+                            {{getActiveLevel('Tous niveaux') | characters:20 }}
                         </button>
                         <div class="panel sidebar__filter__workspace__dropdown__panel"
-                             ng-show="shouldShowSector('level')">         
+                             ng-show="shouldShowSector('level')">
                             <h5 class="sidebar__filter__workspace__dropdown__panel__header"
                                 ng-click="toggleSector('level')">
                                 Tous niveaux
-                            </h5>                   
+                            </h5>
                             <ul class="list-unstyled sidebar__filter__workspace__dropdown__panel__list">
-                                <li ng-repeat="name in levels">
-                                    <a ng-click="filterBy('level', name)">
-                                        {{name}}
+                                <li ng-repeat="level in getLevels()">
+                                    <a ng-click="filterBy('level', level.name)">
+                                        {{level.name}}
                                     </a>
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-xs-1">
-                        <button type="button" class="btn sidebar__filter__workspace__remove">
+                        <button type="button"
+                                class="btn sidebar__filter__workspace__remove"
+                                ng-show="filters.active('level')"
+                                ng-click="removeFilter('level')">
                             X
                         </button>
                     </div>
-                </div>                
+                </div>
             </div>
-        </div>        
+        </div>
     </form>
 </div>

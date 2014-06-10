@@ -2,9 +2,9 @@ angular.module("app.service").factory("Filters", ()->
         new class Filters
             # Private Attributes
             filters =
-                level  : null
                 sector : null
                 filiere: null
+                level  : null
             active = null
             # ─────────────────────────────────────────────────────────────────
             # Public method
@@ -16,4 +16,5 @@ angular.module("app.service").factory("Filters", ()->
                 active = name
             # Getter
             get: => [filters, active]
+            active: (o=active)=> filters[o]
 )

@@ -12,6 +12,7 @@ app = angular.module 'app', [
     "ngAnimate"
     "ngSanitize"
     "leaflet-directive"
+    "truncate"
     # Internal dependencies
     "app.constant"
     "app.controller"
