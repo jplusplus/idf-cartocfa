@@ -15,7 +15,13 @@
             <div class="form-inline" role="form">
                 <div class="form-group">
                     <label class="sr-only" for="search-name-input">Nom du CFA...</label>
-                    <input type="text" class="form-control" id="search-name-input" placeholder="Nom du CFA...">
+                    <input type="text"
+                           class="form-control"
+                           id="search-name-input"
+                           ng-model="filterByName"
+                           bs-typeahead
+                           ng-options="place as place.name for place in places"
+                           placeholder="Nom du CFA..." />
                 </div>
                 <button type="submit" class="btn btn-primary">Chercher</button>
             </div>
@@ -34,7 +40,13 @@
             <div class="form-inline" role="form">
                 <div class="form-group">
                     <label class="sr-only" for="search-place-input">Votre adresse...</label>
-                    <input type="text" class="form-control" id="search-place-input" placeholder="Votre adresse...">
+                    <input type="text"
+                           class="form-control"
+                           id="search-place-input"
+                           placeholder="Votre adresse..."
+                           ng-model="filterByAddress"
+                           bs-typeahead
+                           ng-options="addr.formatted_address as addr.formatted_address for addr in getAddress($viewValue)">
                 </div>
                 <button type="submit" class="btn btn-primary">Chercher</button>
             </div>

@@ -33,6 +33,7 @@ angular.module("app.service").factory("Dataset", [
                     angular.forEach @markers.all, (marker, rne)=>
                         # Filter to only keep degrees related to this place
                         marker.degrees = _.where @degrees, rne: rne
+                        marker.name = marker.degrees[0].name if marker.degrees.length
                         # Extract individuals (sector, level, filiere)
                         # for this places and according its degrees
                         angular.forEach marker.degrees, (degree)=>

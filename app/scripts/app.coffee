@@ -13,6 +13,7 @@ app = angular.module 'app', [
     "ngSanitize"
     "leaflet-directive"
     "truncate"
+    "mgcrea.ngStrap"
     # Internal dependencies
     "app.constant"
     "app.controller"

@@ -1,14 +1,14 @@
 class SidebarCtrl
-    @$inject: ['$scope', 'Filters', 'Dataset']
-    constructor: (@scope, @Filters, @Dataset)->
+    @$inject: ['$scope', '$http', 'Filters', 'Dataset']
+    constructor: (@scope, @http, @Filters, @Dataset)->
         @empty = []
         # Filter to display
         @shouldShowFilter = 'search-sector'
         @shouldShowSector = null
-        @scope.filters    = @Filters
         # ──────────────────────────────────────────────────────────────────────
         # Methods available within the scope
         # ──────────────────────────────────────────────────────────────────────
+        @scope.getAddress   = @getAddress
         @scope.shouldShowFilter = (filter)=> @shouldShowFilter is filter
         @scope.shouldShowSector = (sector)=> @shouldShowSector is sector
         # Toggle some elements
@@ -24,6 +24,11 @@ class SidebarCtrl
         @scope.getActiveSector  = @getActiveSector
         @scope.getActiveFiliere = @getActiveFiliere
         @scope.getActiveLevel   = @getActiveLevel
+        # ──────────────────────────────────────────────────────────────────────
+        # Watchers
+        # ──────────────────────────────────────────────────────────────────────
+        # Save spaces as an array (instead of an objects)
+        @scope.$watch (=>@Dataset.markers.all), (d)=> @scope.places = _.values d
 
     filterBy: (filter, value)=>
         # Hide the menu
@@ -46,6 +51,14 @@ class SidebarCtrl
     getActiveSector : (alt="Tous")=> @Filters.active('sector') or alt
     getActiveFiliere: (alt="Tous")=> @Filters.active('filiere') or alt
     getActiveLevel  : (alt="Tous")=> @Filters.active('level') or alt
+
+    getAddress: (viewValue)=>
+        return if viewValue is ''
+        params = address: viewValue + ", Île-de-France", sensor: yes
+        # Use Google Map's API to geocode the given address
+        @http.get("http://maps.googleapis.com/maps/api/geocode/json",
+            params: params
+        ).then (res) -> res.data.results
 
 
 
