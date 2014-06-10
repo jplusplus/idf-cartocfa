@@ -1,4 +1,4 @@
-class MainCtrl
+class MapCtrl
     @$inject: ['$scope', '$http', 'Dataset']
     constructor: (@scope, @http, @Dataset)->
         # ──────────────────────────────────────────────────────────────────────
@@ -10,7 +10,7 @@ class MainCtrl
             lng: 2.3510745
             zoom: 11
         # Default markers objects
-        @scope.markers   = @Dataset.markers
+        @scope.markers = @Dataset.markers
         # ──────────────────────────────────────────────────────────────────────
         # Methods available within the scope
         # ──────────────────────────────────────────────────────────────────────
@@ -30,4 +30,4 @@ class MainCtrl
 
 
 
-angular.module('app.controller').controller "MainCtrl", MainCtrl
+angular.module('app.controller').controller "MapCtrl", MapCtrl

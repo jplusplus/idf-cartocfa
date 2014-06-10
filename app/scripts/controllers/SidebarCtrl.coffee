@@ -53,7 +53,7 @@ class SidebarCtrl
     getActiveLevel  : (alt="Tous")=> @Filters.active('level') or alt
 
     getAddress: (viewValue)=>
-        return if viewValue is ''
+        return unless viewValue?
         params = address: viewValue + ", Île-de-France", sensor: yes
         # Use Google Map's API to geocode the given address
         @http.get("http://maps.googleapis.com/maps/api/geocode/json",
