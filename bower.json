@@ -12,7 +12,8 @@
     "angular-leaflet-directive": "~0.7.7",
     "angular-resource": "~1.2.16",
     "underscore": "~1.6.0",
-    "angular-truncate": "*"
+    "angular-truncate": "*",
+    "angular-strap": "~2.0.3"
   },
   "devDependencies": {}
 }

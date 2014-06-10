@@ -1,12 +1,12 @@
-angular.module("app.service").factory("Trainings", [
+angular.module("app.service").factory("Dataset", [
     '$http',
     '$rootScope',
     'icons',
     'Filters',
     ($http, $rootScope, icons, Filters)->
-        new class Trainings
+        new class Dataset
             tree     : []
-            details: []
+            details  : []
             degress  : []
             markers  : {}
             # ─────────────────────────────────────────────────────────────────

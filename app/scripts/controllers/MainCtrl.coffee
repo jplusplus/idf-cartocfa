@@ -1,6 +1,6 @@
 class MainCtrl
-    @$inject: ['$scope', '$http', 'Trainings']
-    constructor: (@scope, @http, @Trainings)->
+    @$inject: ['$scope', '$http', 'Dataset']
+    constructor: (@scope, @http, @Dataset)->
         # ──────────────────────────────────────────────────────────────────────
         # Attributes available within the scope
         # ──────────────────────────────────────────────────────────────────────
@@ -10,7 +10,7 @@ class MainCtrl
             lng: 2.3510745
             zoom: 11
         # Default markers objects
-        @scope.markers   = @Trainings.markers
+        @scope.markers   = @Dataset.markers
         # ──────────────────────────────────────────────────────────────────────
         # Methods available within the scope
         # ──────────────────────────────────────────────────────────────────────

@@ -1,12 +1,11 @@
 class SidebarCtrl
-    @$inject: ['$scope', 'Filters', 'Trainings']
-    constructor: (@scope, @Filters, @Trainings)->
+    @$inject: ['$scope', 'Filters', 'Dataset']
+    constructor: (@scope, @Filters, @Dataset)->
         @empty = []
         # Filter to display
         @shouldShowFilter = 'search-sector'
         @shouldShowSector = null
         @scope.filters    = @Filters
-        @scope.trainings  = @Trainings
         # ──────────────────────────────────────────────────────────────────────
         # Methods available within the scope
         # ──────────────────────────────────────────────────────────────────────
@@ -36,7 +35,7 @@ class SidebarCtrl
         @Filters.set filter, null
     # Get filters sets
     getSectors: =>
-        @Trainings.tree
+        @Dataset.tree
     getFilieres: =>
         sector   = _.findWhere @getSectors(), name: @Filters.active('sector')
         if sector? and sector.filieres? then sector.filieres else @empty
