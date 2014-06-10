@@ -11,9 +11,9 @@ angular.module("app.service").factory("Filters", ()->
             # ─────────────────────────────────────────────────────────────────
             constructor: -> [filters, active]
             # Setter
-            set: (name, value)=> 
+            set: (name, value)=>
                 filters[name] = value
-                active = name
+                active = if value is null then null else name
             # Getter
             get: => [filters, active]
             active: (o=active)=> filters[o]

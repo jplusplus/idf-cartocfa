@@ -17,7 +17,7 @@ angular.module("app.service").factory("Trainings", [
                 $http.get('data/degree-details.json').success @generateTree
                 $http.get('data/rne-coord.json').success @generateMarkers
                 # Watch changes on filters
-                $rootScope.$watch (=>Filters), @updateMarkers, yes
+                $rootScope.$watch (=>Filters.get()), @updateMarkers, yes
                 # watch changes for data related to each marker
                 $rootScope.$watch @isReady, @crossData, yes
 
@@ -48,7 +48,22 @@ angular.module("app.service").factory("Trainings", [
 
             # Update the marker array with the
             updateMarkers: =>
-                console.log @Filters
+                filters = {}
+                for own key, val of Filters.get()[0]
+                    filters[key] = val if val isnt null
+                # Reset all marker
+                if _.isEmpty(filters)
+                    @markers.filtered = @markers.all
+                # Filters markers
+                else
+                    @markers.filtered = {}
+                    for own rne, marker of @markers.all
+                        pass = yes
+                        # Test every filver
+                        for own key, val of filters
+                            pass and= _.contains marker[key + "s"], val
+                        # Add the marker only if every filters are OK
+                        @markers.filtered[rne] = marker if pass
 
             # Creates every markers
             generateMarkers: (data)=>
@@ -65,7 +80,6 @@ angular.module("app.service").factory("Trainings", [
                         sectors : []
                         filieres: []
                         levels  : []
-
 
                 angular.extend @markers,
                     all     : all

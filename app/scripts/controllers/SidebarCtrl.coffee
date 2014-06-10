@@ -44,12 +44,9 @@ class SidebarCtrl
         filiere =  _.findWhere @getFilieres(), name: @Filters.active('filiere')
         if filiere? and filiere.levels? then filiere.levels else @empty
     # Get filters displays
-    getActiveSector: (alt="Tous")=>
-        @Filters.active('sector') or alt
-    getActiveFiliere: (alt="Tous")=>
-        @Filters.active('filiere') or alt
-    getActiveLevel: (alt="Tous")=>
-        @Filters.active('level') or alt
+    getActiveSector : (alt="Tous")=> @Filters.active('sector') or alt
+    getActiveFiliere: (alt="Tous")=> @Filters.active('filiere') or alt
+    getActiveLevel  : (alt="Tous")=> @Filters.active('level') or alt
 
 
 
