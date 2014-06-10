@@ -17,7 +17,7 @@ angular.module("app.service").factory("Trainings", [
                 $http.get('data/degree-details.json').success @generateTree
                 $http.get('data/rne-coord.json').success @generateMarkers
                 # Watch changes on filters
-                $rootScope.$watch (=>Filters.get()), @updateMarkers, yes
+                $rootScope.$watch (=>Filters.get()), @updateFilteredMarkers, yes
                 # watch changes for data related to each marker
                 $rootScope.$watch @isReady, @crossData, yes
 
@@ -47,7 +47,7 @@ angular.module("app.service").factory("Trainings", [
                                 marker.levels.push(details.level)
 
             # Update the marker array with the
-            updateMarkers: =>
+            updateFilteredMarkers: =>
                 filters = {}
                 for own key, val of Filters.get()[0]
                     filters[key] = val if val isnt null
@@ -76,6 +76,7 @@ angular.module("app.service").factory("Trainings", [
                         icon  : icons.default
                         # Meta data bind to the marker
                         rne     : place.rne
+                        name    : null
                         degrees : []
                         sectors : []
                         filieres: []
