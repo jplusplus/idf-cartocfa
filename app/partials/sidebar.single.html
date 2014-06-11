@@ -1,12 +1,30 @@
 <div class="sidebar__single">
-    <div class="sidebar__single__address">
-        <p>{{filters.selectedCfa.address}}</p>
-        <p ng-show="filters.selectedCfa.cmp1">
-            {{filters.selectedCfa.cmp1}}
-        </p>
-        <p ng-show="filters.selectedCfa.cmp2">
-            {{filters.selectedCfa.cmp2}}
-        </p>
+
+    <div class="sidebar__single__info">
+        <div class="sidebar__single__info__addr">
+            {{filters.selectedCfa.address}}
+            <div ng-show="filters.selectedCfa.cmp1">
+                {{filters.selectedCfa.cmp1}}
+            </div>
+            <div ng-show="filters.selectedCfa.cmp2">
+                {{filters.selectedCfa.cmp2}}
+            </div>
+        </div>
+        <a href="http://{{filters.selectedCfa.website}}" class="sidebar__single__info__website">
+            {{filters.selectedCfa.website}}
+        </a>
+        <a href="mailto:{{filters.selectedCfa.email}}" class="sidebar__single__info__mailto">
+            {{filters.selectedCfa.email}}
+        </a>
     </div>
-    <pre>{{filters.selectedCfa|json}}</pre>
+
+    <hr />
+
+    <div class="sidebar__single__degrees">
+        <h4 class="sidebar__single__degrees__title">Les diplômes proposées par ce CFA</h4>
+        <p class="bottom30">affichés par secteurs professionels et par filières</p class="bottom30">
+        <h5 class="sidebar__single__degrees__subtitle">Transformation</h5>
+    </div>
+
+    <pre ng-hide="true">{{filters.selectedCfa|json}}</pre>
 </div>

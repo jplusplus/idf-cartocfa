@@ -42,8 +42,10 @@ angular.module("app.service").factory("Dataset", [
                         angular.extend marker, degrees[0]
                         # Only keep degree id
                         marker.degrees = _.pluck degrees, "id"
-                        marker.name = degrees[0].name if degrees.length
-                        marker.slug = Slug.slugify(marker.name)
+                        if degrees.length
+                            marker.name = degrees[0].name
+                            marker.message = marker.name
+                            marker.slug = Slug.slugify(marker.name)
                         # Extract individuals (sector, level, filiere)
                         # for this places and according its degrees
                         angular.forEach marker.degrees, (degree)=>
@@ -102,9 +104,11 @@ angular.module("app.service").factory("Dataset", [
 
                 angular.forEach data, (place)=>
                     all[place.rne] =
-                        lat   : 1*place.lat
-                        lng   : 1*place.lng
-                        icon  : icons.default
+                        lat    : 1*place.lat
+                        lng    : 1*place.lng
+                        icon   : icons.default
+                        message: null
+                        focus  : no
                         # Meta data bind to the marker
                         rne     : place.rne
                         name    : null

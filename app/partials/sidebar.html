@@ -1,6 +1,11 @@
 <div class="sidebar" ng-class="{ 'sidebar--layout-single': filters.selectedCfa }">
     <div class="sidebar__banner">
-        <h1>Les CFA<br /> de votre région</h1>
+        <h1 class="sidebar__banner__title">
+            Les CFA<br /> de votre région
+        </h1>
+        <h2 class="sidebar__banner__title" ng-show="filters.selectedCfa">
+            {{filters.selectedCfa.name}}
+        </h2>
     </div>
     <div ng-include="'partials/sidebar.filters.html'"></div>
     <div ng-include="'partials/sidebar.single.html'"></div>

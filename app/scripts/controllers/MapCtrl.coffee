@@ -24,6 +24,9 @@ class MapCtrl
                 # Reset data
                 @Filters.selectedCfa = null
 
+
+        # Reset selection when clicking on the map
+        @scope.$on 'leafletDirectiveMap.click', => @location.search('rne', null)
         # Catch click on a marker
         @scope.$on 'leafletDirectiveMarker.click', (ev, el)=>
             rne = el.markerName

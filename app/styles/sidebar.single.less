@@ -1,9 +1,36 @@
 .sidebar__single {
     position:absolute;
     left:100%;
-    top:200px;
     bottom:0;
+    top:@banner-height;
     width:@sidebar-extented-width;
     overflow: auto;
-    .transition(left @opening-duration);
+    padding:0 10px;
+    .transition(@opening-duration);
+
+    &__info {
+        color:@gray-darker;
+        text-align: center;
+        padding:20px;
+        font-size: 1.5em;
+        line-height: 1.1em;
+        font-family: @headings-font-family;
+
+        &__mailto, &__website {
+            display: block;
+            color:inherit;
+        }
+    }
+
+    &__degrees {
+
+        &__title, &__subtitle {
+            color:@brand-primary;
+            margin-bottom:0;
+        }
+
+        &__subtitle {
+            text-transform: uppercase;
+        }
+    }
 }
