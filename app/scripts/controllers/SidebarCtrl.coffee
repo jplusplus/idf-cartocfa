@@ -1,6 +1,6 @@
 class SidebarCtrl
-    @$inject: ['$scope', '$http', 'Filters', 'Dataset']
-    constructor: (@scope, @http, @Filters, @Dataset)->
+    @$inject: ['$scope', '$http', '$location', 'Filters', 'Dataset']
+    constructor: (@scope, @http, @location, @Filters, @Dataset)->
         @empty = []
         # Filter to display
         @shouldShowFilter = 'sector'
@@ -20,6 +20,8 @@ class SidebarCtrl
         @scope.toggleSector = (s)=> @shouldShowSector = if @shouldShowSector is s then null else s
         # Update map center
         @scope.setCenter    = @setCenter
+        # Close single mode
+        @scope.closeSingle  = => @location.search "rne", null
         # Filter map
         @scope.filterBy     = @filterBy
         @scope.removeFilter = @removeFilter

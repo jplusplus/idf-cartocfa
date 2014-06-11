@@ -40,12 +40,38 @@
 
         &__subtitle {
             position:absolute;
-            bottom:0px;
+            top:@banner-reduce-gap + 90px;
             left:0;
             right:0;
             margin:10px 20px;
             font-size:180%;
             font-family: "GillLight", @headings-font-family;
+        }
+
+        &__close {
+            z-index:10;
+            position:absolute;
+            background:white;
+            display:block;
+            height:25px;
+            width:25px;
+            line-height:25px;
+            border-radius: 25px;
+            cursor: pointer;
+            right:20px;
+            top:20px + @banner-reduce-gap;
+        }
+
+        &__buildings {
+            z-index:0;
+            background:url("http://idf-lycees.herokuapp.com/images/batiments.png") 40px 0 repeat-x;
+            height:82px;
+            position: absolute;
+            top:10px + @banner-reduce-gap;
+            left:50%;
+            width: @sidebar-extented-width;
+            margin-left: -1px * @sidebar-extented-width/2px;
+            .transition(0.7s);
         }
     }
 
@@ -53,7 +79,7 @@
         width: @sidebar-extented-width;
 
         .sidebar__banner {
-            margin-top: -1px * (@banner-height - @banner-reduce-height);
+            margin-top: -1px * @banner-reduce-gap;
 
             &__title {
                 margin-left: -1px * @sidebar-extented-width;
