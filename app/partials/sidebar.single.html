@@ -1,0 +1,12 @@
+<div class="sidebar__single">
+    <div class="sidebar__single__address">
+        <p>{{filters.selectedCfa.address}}</p>
+        <p ng-show="filters.selectedCfa.cmp1">
+            {{filters.selectedCfa.cmp1}}
+        </p>
+        <p ng-show="filters.selectedCfa.cmp2">
+            {{filters.selectedCfa.cmp2}}
+        </p>
+    </div>
+    <pre>{{filters.selectedCfa|json}}</pre>
+</div>

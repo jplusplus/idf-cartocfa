@@ -4,5 +4,10 @@
     bottom:0;
     right:0;
     left:@sidebar-width;
-    background:#ccc;   
+    background:#ccc;
+    .transition(left @opening-duration);
+
+    &--layout-single {
+        left:@sidebar-extented-width;
+    }
 }

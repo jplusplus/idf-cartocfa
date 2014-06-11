@@ -1,10 +1,11 @@
 angular.module("app.service").factory("Dataset", [
     '$http',
     '$rootScope',
+    '$q';
     'icons',
     'Filters',
     'Slug',
-    ($http, $rootScope, icons, Filters, Slug)->
+    ($http, $rootScope, $q, icons, Filters, Slug)->
         new class Dataset
             tree     : []
             details  : []
@@ -14,6 +15,9 @@ angular.module("app.service").factory("Dataset", [
             # Public method
             # ─────────────────────────────────────────────────────────────────
             constructor:->
+                # Create a promise to be resolve when all data are loaded
+                @deferred = do $q.defer
+                # Load datasets
                 $http.get('data/degree-places.json').success (data)=> @degrees = data
                 $http.get('data/degree-details.json').success @generateTree
                 $http.get('data/rne-coord.json').success @generateMarkers
@@ -33,14 +37,18 @@ angular.module("app.service").factory("Dataset", [
                     # Look into each marker
                     angular.forEach @markers.all, (marker, rne)=>
                         # Filter to only keep degrees related to this place
-                        marker.degrees = _.where @degrees, rne: rne
-                        marker.name = marker.degrees[0].name if marker.degrees.length
+                        degrees = _.where @degrees, rne: rne
+                        # Extract address from the first degreee
+                        angular.extend marker, degrees[0]
+                        # Only keep degree id
+                        marker.degrees = _.pluck degrees, "id"
+                        marker.name = degrees[0].name if degrees.length
                         marker.slug = Slug.slugify(marker.name)
                         # Extract individuals (sector, level, filiere)
                         # for this places and according its degrees
                         angular.forEach marker.degrees, (degree)=>
                             # Find details of the given degree
-                            details = _.findWhere @details, id: degree.id
+                            details = _.findWhere @details, id: degree
                             # Records individuals
                             unless _.contains(marker.sectors, details.sector)
                                 marker.sectors.push(details.sector)
@@ -48,6 +56,8 @@ angular.module("app.service").factory("Dataset", [
                                 marker.filieres.push(details.filiere)
                             unless _.contains(marker.levels, details.level)
                                 marker.levels.push(details.level)
+                    # Resolve the promise
+                    do @deferred.resolve
 
             # Update the marker array with the
             updateFilteredMarkers: =>
@@ -73,6 +83,18 @@ angular.module("app.service").factory("Dataset", [
                                 pass and= -1 isnt marker.slug.indexOf Slug.slugify(val)
                         # Add the marker only if every filters are OK
                         @markers.filtered[rne] = marker if pass
+
+            # Get CFA that matches with the given RNE
+            getCfa: (rne)=>
+                deferred = do $q.defer
+                if @markers.all? and @markers.all.length
+                    cfa = _.findWhere @markers.all, rne: rne
+
+                else
+                    @deferred.promise.then =>
+                        cfa = _.findWhere @markers.all, rne: rne
+                        deferred.resolve(cfa)
+                return deferred.promise
 
             # Creates every markers
             generateMarkers: (data)=>
