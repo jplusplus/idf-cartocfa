@@ -4,9 +4,13 @@
     left:0;
     top:0;
     bottom:0;
+    z-index: @z-index-sidebar;
+    overflow:hidden;
+    .box-shadow(0px 0px 50px #000);
     .transition(@opening-duration);
 
     &__banner {
+        position:relative;
         background:@brand-primary;
         color:white;
         display: block;
@@ -14,13 +18,34 @@
         padding:20px;
         height:@banner-height;
         text-align: center;
+        text-transform: uppercase;
         .transition(@opening-duration);
 
-        h1 {
+        &__title {
             margin:0;
-            font-size:200%;
+            font-size:220%;
             text-transform: uppercase;
-            font-weight:100;
+            position:relative;
+            font-family: "GillLight", @headings-font-family;
+            .transition(@opening-duration);
+
+            &:after {
+                content:url("/images/tetiere-logo.png");
+                position:absolute;
+                top:100%;
+                left:50%;
+                margin-left:-170px/2px;
+            }
+        }
+
+        &__subtitle {
+            position:absolute;
+            bottom:0px;
+            left:0;
+            right:0;
+            margin:10px 20px;
+            font-size:180%;
+            font-family: "GillLight", @headings-font-family;
         }
     }
 
@@ -29,6 +54,11 @@
 
         .sidebar__banner {
             margin-top: -1px * (@banner-height - @banner-reduce-height);
+
+            &__title {
+                margin-left: -1px * @sidebar-extented-width;
+                .opacity(0);
+            }
         }
 
         .sidebar__filters {
