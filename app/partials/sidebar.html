@@ -1,9 +1,9 @@
-<div class="sidebar" ng-controller="SidebarCtrl">
+<div class="sidebar" >
     <div class="sidebar__banner">
         <h1>Les CFA<br /> de votre région</h1>
     </div>
 
-    <form class="sidebar__filter sidebar__filter--search-name">
+    <form class="sidebar__filter sidebar__filter--search-name" ng-submit="filterBy('name', filterByName)">
         <h4 class="sidebar__filter__title" ng-click="toggleFilter('search-name')">
             Rechercher un CFA par son nom
         </h4>
@@ -20,6 +20,7 @@
                            id="search-name-input"
                            ng-model="filterByName"
                            bs-typeahead
+                           autocomplete="off"
                            ng-options="place as place.name for place in places"
                            placeholder="Nom du CFA..." />
                 </div>
@@ -27,7 +28,7 @@
             </div>
         </div>
     </form>
-    <form class="sidebar__filter sidebar__filter--search-place">
+    <form class="sidebar__filter sidebar__filter--search-place" ng-submit="setCenter(filterByAddress)">
         <h4 class="sidebar__filter__title" ng-click="toggleFilter('search-place')">
             Trouver les CFA près de chez vous
         </h4>
@@ -46,6 +47,7 @@
                            placeholder="Votre adresse..."
                            ng-model="filterByAddress"
                            bs-typeahead
+                           autocomplete="off"
                            ng-options="addr.formatted_address as addr.formatted_address for addr in getAddress($viewValue)">
                 </div>
                 <button type="submit" class="btn btn-primary">Chercher</button>

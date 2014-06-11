@@ -14,6 +14,7 @@ app = angular.module 'app', [
     "leaflet-directive"
     "truncate"
     "mgcrea.ngStrap"
+    "slugifier"
     # Internal dependencies
     "app.constant"
     "app.controller"

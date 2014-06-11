@@ -5,7 +5,18 @@ angular.module("app.service").factory("Filters", ()->
             sector : null
             filiere: null
             level  : null
+            name   : null
         active = null
+        # Map centers
+        centers:
+            default:
+                lat: 48.856583
+                lng: 2.3510745
+                zoom: 11
+            manual:
+                lat: 48.856583
+                lng: 2.3510745
+                zoom: 11
         # ─────────────────────────────────────────────────────────────────
         # Public method
         # ─────────────────────────────────────────────────────────────────

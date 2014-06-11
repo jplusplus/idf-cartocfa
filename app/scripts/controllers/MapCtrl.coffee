@@ -1,31 +1,29 @@
 class MapCtrl
-    @$inject: ['$scope', '$http', 'Dataset']
-    constructor: (@scope, @http, @Dataset)->
+    @$inject: ['$scope', '$http', 'Dataset', 'Filters']
+    constructor: (@scope, @http, @Dataset, @Filters)->
         # ──────────────────────────────────────────────────────────────────────
         # Attributes available within the scope
         # ──────────────────────────────────────────────────────────────────────
         # Default center
-        @scope.center =
-            lat: 48.856583
-            lng: 2.3510745
-            zoom: 11
+        @scope.center = @Filters.centers.default
         # Default markers objects
         @scope.markers = @Dataset.markers
-        # ──────────────────────────────────────────────────────────────────────
-        # Methods available within the scope
-        # ──────────────────────────────────────────────────────────────────────
-
         # ──────────────────────────────────────────────────────────────────────
         # Watchers
         # ──────────────────────────────────────────────────────────────────────
         @scope.$watch 'markers.filtered', @updateBounds
+        @scope.$watch (=>@Filters.centers.manual), @updateCenter, yes
 
     updateBounds: =>
         # Bounds need this format
         bounds = _.map @scope.markers.filtered, (m)-> [m.lat, m.lng]
         # Update the bounds from the scope
-        angular.extend @scope,
-            bounds: new L.LatLngBounds(bounds)
+        angular.extend @scope, bounds: new L.LatLngBounds(bounds)
+
+    updateCenter: (center)=>
+        # Update the map center if one is given
+        angular.extend @scope, center: center if center?
+
 
 
 

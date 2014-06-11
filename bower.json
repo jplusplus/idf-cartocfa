@@ -13,7 +13,8 @@
     "angular-resource": "~1.2.16",
     "underscore": "~1.6.0",
     "angular-truncate": "*",
-    "angular-strap": "~2.0.0"
+    "angular-strap": "~2.0.0",
+    "angular-slugify": "~1.0.0"
   },
   "devDependencies": {}
 }

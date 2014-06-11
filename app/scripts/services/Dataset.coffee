@@ -3,7 +3,8 @@ angular.module("app.service").factory("Dataset", [
     '$rootScope',
     'icons',
     'Filters',
-    ($http, $rootScope, icons, Filters)->
+    'Slug',
+    ($http, $rootScope, icons, Filters, Slug)->
         new class Dataset
             tree     : []
             details  : []
@@ -34,6 +35,7 @@ angular.module("app.service").factory("Dataset", [
                         # Filter to only keep degrees related to this place
                         marker.degrees = _.where @degrees, rne: rne
                         marker.name = marker.degrees[0].name if marker.degrees.length
+                        marker.slug = Slug.slugify(marker.name)
                         # Extract individuals (sector, level, filiere)
                         # for this places and according its degrees
                         angular.forEach marker.degrees, (degree)=>
@@ -49,9 +51,10 @@ angular.module("app.service").factory("Dataset", [
 
             # Update the marker array with the
             updateFilteredMarkers: =>
-                filters = {}
-                for own key, val of Filters.get()[0]
-                    filters[key] = val if val isnt null
+                [filters, active] = Filters.get()
+                for own key, val of filters
+                    if val is null
+                        delete filters[key]
                 # Reset all marker
                 if _.isEmpty(filters)
                     @markers.filtered = @markers.all
@@ -62,7 +65,12 @@ angular.module("app.service").factory("Dataset", [
                         pass = yes
                         # Test every filver
                         for own key, val of filters
-                            pass and= _.contains marker[key + "s"], val
+                            # Filter by sector
+                            if active isnt 'name' and key isnt 'name'
+                                pass and= _.contains marker[key + "s"], val
+                            # Filter by name
+                            else if active is 'name' and key is 'name'
+                                pass and= -1 isnt marker.slug.indexOf Slug.slugify(val)
                         # Add the marker only if every filters are OK
                         @markers.filtered[rne] = marker if pass
 

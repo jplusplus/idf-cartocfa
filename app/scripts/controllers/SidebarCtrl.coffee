@@ -14,6 +14,8 @@ class SidebarCtrl
         # Toggle some elements
         @scope.toggleFilter = (f)=> @shouldShowFilter = if @shouldShowFilter is f then null else f
         @scope.toggleSector = (s)=> @shouldShowSector = if @shouldShowSector is s then null else s
+        # Update map center
+        @scope.setCenter    = @setCenter
         # Filter map
         @scope.filterBy     = @filterBy
         @scope.removeFilter = @removeFilter
@@ -24,41 +26,57 @@ class SidebarCtrl
         @scope.getActiveSector  = @getActiveSector
         @scope.getActiveFiliere = @getActiveFiliere
         @scope.getActiveLevel   = @getActiveLevel
+
         # ──────────────────────────────────────────────────────────────────────
         # Watchers
         # ──────────────────────────────────────────────────────────────────────
         # Save spaces as an array (instead of an objects)
         @scope.$watch (=>@Dataset.markers.all), (d)=> @scope.places = _.values d
 
+
+    setCenter: (addr)=>
+        # Geocode the address asynchronously
+        @getAddress addr, (err, res)=>
+            unless err? or res.length is 0
+                angular.extend @Filters.centers.manual, res[0].geometry.location
+                angular.extend @Filters.centers.manual, zoom: 14
+
+
     filterBy: (filter, value)=>
         # Hide the menu
         @shouldShowSector = null
         # Update filter
         @Filters.set filter, value
+
     removeFilter: (filter)=>
         # Update filter
         @Filters.set filter, null
+
     # Get filters sets
     getSectors: =>
         @Dataset.tree
+
     getFilieres: =>
         sector   = _.findWhere @getSectors(), name: @Filters.active('sector')
         if sector? and sector.filieres? then sector.filieres else @empty
+
     getLevels: =>
         filiere =  _.findWhere @getFilieres(), name: @Filters.active('filiere')
         if filiere? and filiere.levels? then filiere.levels else @empty
+
     # Get filters displays
     getActiveSector : (alt="Tous")=> @Filters.active('sector') or alt
     getActiveFiliere: (alt="Tous")=> @Filters.active('filiere') or alt
     getActiveLevel  : (alt="Tous")=> @Filters.active('level') or alt
 
-    getAddress: (viewValue)=>
-        return unless viewValue?
+    getAddress: (viewValue, callback=->)=>
+        return callback(error: 'No value', null) unless viewValue?
         params = address: viewValue + ", Île-de-France", sensor: yes
         # Use Google Map's API to geocode the given address
-        @http.get("http://maps.googleapis.com/maps/api/geocode/json",
-            params: params
-        ).then (res) -> res.data.results
+        url = "http://maps.googleapis.com/maps/api/geocode/json"
+        @http.get(url, params: params).then (res)->
+            callback null, res.data.results
+            res.data.results
 
 
 
