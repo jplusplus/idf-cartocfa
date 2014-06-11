@@ -3,16 +3,20 @@ class SidebarCtrl
     constructor: (@scope, @http, @Filters, @Dataset)->
         @empty = []
         # Filter to display
-        @shouldShowFilter = 'search-sector'
+        @shouldShowFilter = 'sector'
         @shouldShowSector = null
         # ──────────────────────────────────────────────────────────────────────
-        # Methods available within the scope
+        # Methods and attributes available within the scope
         # ──────────────────────────────────────────────────────────────────────
+        @scope.filters      = @Filters
         @scope.getAddress   = @getAddress
         @scope.shouldShowFilter = (filter)=> @shouldShowFilter is filter
         @scope.shouldShowSector = (sector)=> @shouldShowSector is sector
         # Toggle some elements
-        @scope.toggleFilter = (f)=> @shouldShowFilter = if @shouldShowFilter is f then null else f
+        @scope.toggleFilter = (f)=>
+            @shouldShowFilter = if @shouldShowFilter is f then null else f
+            # Activate the given filter
+            @Filters.activate f
         @scope.toggleSector = (s)=> @shouldShowSector = if @shouldShowSector is s then null else s
         # Update map center
         @scope.setCenter    = @setCenter

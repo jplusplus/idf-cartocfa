@@ -17,6 +17,10 @@ angular.module("app.service").factory("Filters", ()->
                 lat: 48.856583
                 lng: 2.3510745
                 zoom: 11
+        KEYS:
+            SECTOR: ['sector', 'filiere', 'level']
+            PLACE : ['place']
+            NAME  : ['name']
         # ─────────────────────────────────────────────────────────────────
         # Public method
         # ─────────────────────────────────────────────────────────────────
@@ -24,8 +28,14 @@ angular.module("app.service").factory("Filters", ()->
         # Setter
         set: (name, value)=>
             filters[name] = value
-            active = if value is null then null else name
+            # Filter by sector
+            if _.contains @KEYS.SECTOR, name
+                @activate('sector')
+            # Filter by name of place
+            else
+                @activate(name)
+        activate: (name)=> active = name
         # Getter
-        get: => [filters, active]
+        get: (name)=> if name? then filters[name] else [filters, active]
         active: (o=active)=> filters[o]
 )

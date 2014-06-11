@@ -66,10 +66,10 @@ angular.module("app.service").factory("Dataset", [
                         # Test every filver
                         for own key, val of filters
                             # Filter by sector
-                            if active isnt 'name' and key isnt 'name'
+                            if active is 'sector' and _.contains Filters.KEYS.SECTOR, key
                                 pass and= _.contains marker[key + "s"], val
                             # Filter by name
-                            else if active is 'name' and key is 'name'
+                            if active is 'name' and _.contains Filters.KEYS.NAME, key
                                 pass and= -1 isnt marker.slug.indexOf Slug.slugify(val)
                         # Add the marker only if every filters are OK
                         @markers.filtered[rne] = marker if pass
