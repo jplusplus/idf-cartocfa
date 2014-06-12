@@ -11,7 +11,7 @@
 
     &__banner {
         position:relative;
-        background:@brand-primary;
+        background:@brand-primary url("/images/banner.png") 0 0 repeat-x;
         color:white;
         display: block;
         margin:0;
@@ -20,6 +20,25 @@
         text-align: center;
         text-transform: uppercase;
         .transition(@opening-duration);
+
+        &:after {
+            content:url("/images/pointeurs.png");
+            position:absolute;
+            top:170px;
+            left:0;
+            z-index:10;
+            .transition(0.7s);
+        }
+
+        &:before {
+            content: "";
+            position: absolute;
+            bottom: 0px;
+            left: 0px;
+            right: 0px;
+            height: 28px;
+            background: url('/images/tetiere-shadow.png') repeat scroll 0% 0% transparent;
+        }
 
         &__title {
             margin:0;
@@ -51,20 +70,24 @@
         &__close {
             z-index:10;
             position:absolute;
-            background:white;
+            background:url("/images/close.png") left center no-repeat;
             display:block;
             height:25px;
             width:25px;
             line-height:25px;
-            border-radius: 25px;
             cursor: pointer;
             right:20px;
             top:20px + @banner-reduce-gap;
+            .hide-text();
+
+            &:hover {
+                background-position: right center;
+            }
         }
 
         &__buildings {
             z-index:0;
-            background:url("http://idf-lycees.herokuapp.com/images/batiments.png") 40px 0 repeat-x;
+            background:url("/images/tetiere-carrousel.png") 40px 0 repeat-x;
             height:82px;
             position: absolute;
             top:10px + @banner-reduce-gap;
@@ -72,6 +95,25 @@
             width: @sidebar-extented-width;
             margin-left: -1px * @sidebar-extented-width/2px;
             .transition(0.7s);
+
+            &:after {
+                content: "";
+                position:absolute;
+                left:705px;
+                top:0;
+                width: @sidebar-extented-width;
+                background:url("/images/tetiere-carrousel.png") -1px*(390px)+40px 0 repeat-x;
+                height:82px;
+            }
+
+            &:before {
+                position:absolute;
+                top:100%;
+                left:0;
+                right:0;
+                white-space:pre;
+                content:"Explorez \A les centres de formation \A d'apprentis"
+            }
         }
     }
 
@@ -83,7 +125,10 @@
 
             &__title {
                 margin-left: -1px * @sidebar-extented-width;
-                .opacity(0);
+            }
+
+            &__buildings, &:after {
+                left: -1px * @sidebar-extented-width;
             }
         }
 

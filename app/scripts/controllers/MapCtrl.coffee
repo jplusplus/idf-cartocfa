@@ -1,6 +1,10 @@
 class MapCtrl
-    @$inject: ['$scope', '$http', '$location', 'Dataset', 'Filters']
-    constructor: (@scope, @http, @location, @Dataset, @Filters)->
+    @$inject: ['$scope', '$http', '$compile', '$location', 'Dataset', 'Filters']
+    constructor: (@scope, @http, @compile, @location, @Dataset, @Filters)->
+        # Load marker template
+        @http.get('partials/map.popup.html').success (html)=>
+            # Prepare template
+            @markerPopup = @compile( angular.element(html) ) @scope.$new(yes)
         # ──────────────────────────────────────────────────────────────────────
         # Attributes available within the scope
         # ──────────────────────────────────────────────────────────────────────
@@ -28,7 +32,7 @@ class MapCtrl
         # Reset selection when clicking on the map
         @scope.$on 'leafletDirectiveMap.click', => @location.search('rne', null)
         # Catch click on a marker
-        @scope.$on 'leafletDirectiveMarker.click', (ev, el)=>
+        @scope.$on 'leafletDirectiveMarker.click', (ev, el)=>            
             rne = el.markerName
             # Is the CFA already selected?
             if @Filters.selectedCfa? and @Filters.selectedCfa.rne is rne

@@ -2,9 +2,9 @@ angular.module('app.directive').directive "movingBackground", ['$timeout', ($tim
     restrict: "A"
     replace: false
     scope:
-        gap: "="
+        gap    : "="
         timeout: "="
-        offset: "="
+        offset : "="
     link: (scope, element, attrs) ->
         nextLogoFrame = ->
             step = element.data("step") or 1

@@ -1,5 +1,7 @@
 <div class="sidebar__filters">
-    <form class="sidebar__filters__form sidebar__filters__form--search-name" ng-submit="filterBy('name', filterByName)">
+    <form class="sidebar__filters__form sidebar__filters__form--search-name"
+          ng-submit="filterBy('name', filterByName)"
+          ng-class="{ 'sidebar__filters__form--open': shouldShowFilter('name') }">
         <h4 class="sidebar__filters__form__title" ng-click="toggleFilter('name')">
             Rechercher un CFA par son nom
         </h4>
@@ -24,7 +26,9 @@
             </div>
         </div>
     </form>
-    <form class="sidebar__filters__form sidebar__filters__form--search-place" ng-submit="setCenter(filterByAddress)">
+    <form class="sidebar__filters__form sidebar__filters__form--search-place"
+          ng-submit="setCenter(filterByAddress)"
+          ng-class="{ 'sidebar__filters__form--open': shouldShowFilter('place') }">
         <h4 class="sidebar__filters__form__title" ng-click="toggleFilter('place')">
             Trouver les CFA près de chez vous
         </h4>
@@ -50,7 +54,8 @@
             </div>
         </div>
     </form>
-    <form class="sidebar__filters__form sidebar__filters__form--search-sector">
+    <form class="sidebar__filters__form sidebar__filters__form--search-sector"
+           ng-class="{ 'sidebar__filters__form--open': shouldShowFilter('sector') }">
         <h4 class="sidebar__filters__form__title" ng-click="toggleFilter('sector')">
             Découvrir les filières
         </h4>
