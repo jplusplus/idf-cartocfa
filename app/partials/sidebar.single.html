@@ -9,12 +9,18 @@
             <div ng-show="filters.selectedCfa.cmp2">
                 {{filters.selectedCfa.cmp2}}
             </div>
+            <div>{{filters.selectedCfa.insee}}, {{filters.selectedCfa.city}}</div>
         </div>
-        <a href="http://{{filters.selectedCfa.website}}" class="sidebar__single__info__website">
-            {{filters.selectedCfa.website}}
+        <div class="sidebar__single__info__phone">
+            {{filters.selectedCfa.phone}}
+        </div>
+        <a href="http://{{filters.selectedCfa.website}}"
+           class="sidebar__single__info__website"
+           ng-show="filters.selectedCfa.email != filters.selectedCfa.website">
+            <img src="/images/link.png" /> {{filters.selectedCfa.website}}
         </a>
         <a href="mailto:{{filters.selectedCfa.email}}" class="sidebar__single__info__mailto">
-            {{filters.selectedCfa.email}}
+            <img src="/images/mailto.png" /> {{filters.selectedCfa.email}}
         </a>
     </div>
 
