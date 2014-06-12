@@ -11,4 +11,32 @@
     &--layout-single {
         left:@sidebar-extented-width;
     }
+
+    .leaflet-popup {
+        min-width: 200px;
+
+        &-close-button {
+            display: none;
+        }
+    }
+
+    & .leaflet-popup &__popup {
+
+        text-align:center;
+
+        &__title {
+            margin-top:0;
+            margin-bottom:5px;
+            text-transform: uppercase;
+            color:@brand-primary;
+        }
+
+        &__addr {
+            color:@gray-darker;
+            margin-top:0;
+            margin-bottom:5px;
+            font-size:1.2em;
+            font-family: @headings-font-family;
+        }
+    }
 }

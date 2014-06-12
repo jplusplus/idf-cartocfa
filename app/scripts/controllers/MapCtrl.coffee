@@ -2,9 +2,7 @@ class MapCtrl
     @$inject: ['$scope', '$http', '$compile', '$location', 'Dataset', 'Filters']
     constructor: (@scope, @http, @compile, @location, @Dataset, @Filters)->
         # Load marker template
-        @http.get('partials/map.popup.html').success (html)=>
-            # Prepare template
-            @markerPopup = @compile( angular.element(html) ) @scope.$new(yes)
+        @markerPopupHtml = '<div ng-include="\'partials/map.popup.html\'"></div>'
         # ──────────────────────────────────────────────────────────────────────
         # Attributes available within the scope
         # ──────────────────────────────────────────────────────────────────────
@@ -32,15 +30,18 @@ class MapCtrl
         # Reset selection when clicking on the map
         @scope.$on 'leafletDirectiveMap.click', => @location.search('rne', null)
         # Catch click on a marker
-        @scope.$on 'leafletDirectiveMarker.click', (ev, el)=>            
+        @scope.$on 'leafletDirectiveMarker.popupopen', (ev, el)=>
             rne = el.markerName
-            # Is the CFA already selected?
-            if @Filters.selectedCfa? and @Filters.selectedCfa.rne is rne
-                # Unset the current value
-                @location.search('rne', null)
-            else
-                # Retreive CFA and set a filter attribute
-                @location.search('rne', rne)
+            # Create the popup view when is opened
+            scope = @scope.$new()
+            @Dataset.getCfa(rne)
+            # Add cfa to the new
+            @Dataset.getCfa(rne).then (cfa)-> angular.extend scope, cfa: cfa
+            # Get popup node
+            content = angular.element el.leafletEvent.popup._contentNode
+            content.html @markerPopupHtml
+            # Compile template with the new scope
+            @compile(content)(scope)
 
     updateBounds: =>
         # Bounds need this format

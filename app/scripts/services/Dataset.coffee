@@ -44,6 +44,7 @@ angular.module("app.service").factory("Dataset", [
                         marker.degrees = _.pluck degrees, "id"
                         if degrees.length
                             marker.name    = degrees[0].name
+                            marker.message = marker.name
                             marker.slug    = Slug.slugify(marker.name)
                         # Extract individuals (sector, level, filiere)
                         # for this places and according its degrees

@@ -78,10 +78,10 @@
                         </button>
                         <div class="panel sidebar__filters__form__workspace__dropdown__panel"
                              ng-show="shouldShowSector('sector')">
-                            <h5 class="sidebar__filters__form__workspace__dropdown__panel__header"
-                                ng-click="toggleSector('sector')">
+                            <a class="sidebar__filters__form__workspace__dropdown__panel__header"
+                                ng-click="removeFilter('sector')">
                                 Tous secteurs
-                            </h5>
+                            </a>
                             <ul class="list-unstyled sidebar__filters__form__workspace__dropdown__panel__list">
                                 <li ng-repeat="sector in getSectors()">
                                     <a ng-click="filterBy('sector', sector.name)">
@@ -113,10 +113,10 @@
                         </button>
                         <div class="panel sidebar__filters__form__workspace__dropdown__panel"
                              ng-show="shouldShowSector('filiere')">
-                            <h5 class="sidebar__filters__form__workspace__dropdown__panel__header"
-                                ng-click="toggleSector('filiere')">
+                            <a class="sidebar__filters__form__workspace__dropdown__panel__header"
+                                ng-click="removeFilter('filiere')">
                                 Toutes filières
-                            </h5>
+                            </a>
                             <ul class="list-unstyled sidebar__filters__form__workspace__dropdown__panel__list">
                                 <li ng-repeat="filiere in getFilieres()">
                                     <a ng-click="filterBy('filiere', filiere.name)">
@@ -148,10 +148,10 @@
                         </button>
                         <div class="panel sidebar__filters__form__workspace__dropdown__panel"
                              ng-show="shouldShowSector('level')">
-                            <h5 class="sidebar__filters__form__workspace__dropdown__panel__header"
-                                ng-click="toggleSector('level')">
+                            <a class="sidebar__filters__form__workspace__dropdown__panel__header"
+                                ng-click="removeFilter('level')">
                                 Tous niveaux
-                            </h5>
+                            </a>
                             <ul class="list-unstyled sidebar__filters__form__workspace__dropdown__panel__list">
                                 <li ng-repeat="level in getLevels()">
                                     <a ng-click="filterBy('level', level.name)">

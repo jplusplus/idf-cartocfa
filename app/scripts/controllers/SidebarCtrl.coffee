@@ -55,6 +55,8 @@ class SidebarCtrl
         @Filters.set filter, value
 
     removeFilter: (filter)=>
+        # Hide the menu
+        @shouldShowSector = null
         # Update filter
         @Filters.set filter, null
 

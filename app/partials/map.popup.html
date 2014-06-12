@@ -1,6 +1,13 @@
-<div class="text-center" ng-controller="PopupCtrl">
-    <h5>{{cfa.name}}</h5>
-    <button class="btn btn-default">
-        plus d'info
-    </button>
+<div class="map__popup" ng-controller="PopupCtrl">
+    <h5 class="map__popup__title">{{cfa.name}}</h5>
+    <div ng-hide="filters.selectedCfa && filters.selectedCfa.rne == cfa.rne">
+        <div class="map__popup__addr">
+            {{cfa.address}}
+            <div ng-show="cfa.cmp1">{{cfa.cmp1}}</div>
+            <div ng-show="cfa.cmp2">{{cfa.cmp2}}</div>
+        </div>
+        <button class="btn btn-sm btn-default" ng-click="selectCfa(cfa.rne)">
+            PLUS D'INFO
+        </button>
+    </div>
 </div>
