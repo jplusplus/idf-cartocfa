@@ -24,13 +24,44 @@
 
     &__degrees {
 
-        &__title, &__subtitle {
+        &__title, &__sector {
             color:@brand-primary;
             margin-bottom:0;
         }
 
-        &__subtitle {
+        &__sector {
             text-transform: uppercase;
+            border-bottom:1px solid @gray-darker;
+            position:relative;
+            cursor:pointer;
+
+
+            &:after {
+                content:url("/images/sector-arrow.png");
+                position:absolute;
+                right:5px;
+                top:-3px;
+            }
+
+            &--reduce:after {
+                .rotate(180deg);
+            }
+
+            &__filiere {
+                padding:3px;
+                padding-top: 4px;
+                margin:0;
+                font-size: 1.1em;
+                color: @gray-darker;
+                background: #d4d4d4;
+            }
+
+            &__degree {
+                padding:3px;
+                padding-left:40px;
+                margin-bottom:20px;
+                color: @gray-darker;
+            }
         }
     }
 }

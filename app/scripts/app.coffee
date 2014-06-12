@@ -1,3 +1,4 @@
+angular.module('app.animation', [])
 angular.module('app.constant',  [])
 angular.module('app.config',    [])
 angular.module('app.controller',[])
@@ -16,6 +17,7 @@ app = angular.module 'app', [
     "mgcrea.ngStrap"
     "slugifier"
     # Internal dependencies
+    "app.animation"
     "app.constant"
     "app.controller"
     "app.config"

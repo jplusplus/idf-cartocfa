@@ -38,19 +38,21 @@ angular.module("app.service").factory("Dataset", [
                     angular.forEach @markers.all, (marker, rne)=>
                         # Filter to only keep degrees related to this place
                         degrees = _.where @degrees, rne: rne
-                        # Extract address from the first degreee
-                        angular.extend marker, degrees[0]
                         # Only keep degree id
                         marker.degrees = _.pluck degrees, "id"
+                        # Extract address from the first degreee
+                        angular.extend marker, degrees[0]
+                        # Extract data about this place from the 1st degree
+                        # (data aren't atomic)
                         if degrees.length
                             marker.name    = degrees[0].name
                             marker.message = marker.name
                             marker.slug    = Slug.slugify(marker.name)
                         # Extract individuals (sector, level, filiere)
                         # for this places and according its degrees
-                        angular.forEach marker.degrees, (degree)=>
+                        angular.forEach degrees, (degree)=>
                             # Find details of the given degree
-                            details = _.findWhere @details, id: degree
+                            details = _.findWhere @details, id: degree.id
                             # Records individuals
                             unless _.contains(marker.sectors, details.sector)
                                 marker.sectors.push(details.sector)
@@ -89,13 +91,13 @@ angular.module("app.service").factory("Dataset", [
             # Get CFA that matches with the given RNE
             getCfa: (rne)=>
                 deferred = do $q.defer
-                if @markers.all? and @markers.all.length
+                @deferred.promise.then =>
                     cfa = _.findWhere @markers.all, rne: rne
-
-                else
-                    @deferred.promise.then =>
-                        cfa = _.findWhere @markers.all, rne: rne
-                        deferred.resolve(cfa)
+                    # Extract degree's details for this CFA
+                    cfa.details = _.filter @details, (d)-> _.contains cfa.degrees, d.id
+                    # Group by sector, filiere, level
+                    cfa.details = @getTree cfa.details
+                    deferred.resolve(cfa)
                 return deferred.promise
 
             # Creates every markers
@@ -124,7 +126,13 @@ angular.module("app.service").factory("Dataset", [
             # Generates a tree of trainings sectors, filieres and levels
             generateTree: (data)=>
                 @details = data
-                sectors   = _.uniq(_.pluck(data, 'sector'))
+                @tree = @tree.concat @getTree(data)
+
+            getTree: (data, filter)->
+                tree = []
+                # Optional: filter the data
+                data = _.filter data, filter if filter?
+                sectors = _.uniq(_.pluck(data, 'sector'))
                 # First level: sector
                 for sector in sectors
                     # Create a sector object
@@ -133,12 +141,17 @@ angular.module("app.service").factory("Dataset", [
                     filieres     = _.uniq(_.pluck(dataBySector, 'filiere'))
                     # Second level: filiere
                     for filiere in filieres
-                        filiereObj    = name: filiere, levels: []
-                        dataByFiliere = _.where(data, 'filiere': filiere)
+                        dataByFiliere = _.where(dataBySector, filiere: filiere)
                         levels        = _.uniq(_.pluck(dataByFiliere, 'level'))
+                        filiereObj    =
+                            name  : filiere
+                            degree: dataBySector[0].name
+                            levels: []
                         # Third level: level
                         for level in levels
                             filiereObj.levels.push name: level
                         sectorObj.filieres.push filiereObj
-                    @tree.push sectorObj
+                    tree.push sectorObj
+                # Return the tree
+                tree
 ])
