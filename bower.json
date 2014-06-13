@@ -14,7 +14,9 @@
     "underscore": "~1.6.0",
     "angular-truncate": "*",
     "angular-strap": "~2.0.0",
-    "angular-slugify": "~1.0.0"
+    "angular-slugify": "~1.0.0",
+    "jquery.jscrollpane": "~2.0.14",
+    "jquery-mousewheel": "~3.1.11"
   },
   "devDependencies": {}
 }

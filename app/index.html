@@ -26,12 +26,13 @@
         <meta charset="utf-8">
         <title>Carto CFA - IDF</title>
         <meta name="description" content="">
-        <meta name="viewport" content="width=device-width">
+        <meta name="viewport" content="width=990px">
         <link rel="shortcut icon" href="/favicon.ico">
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
         <!-- build:css styles/vendor.css -->
         <!-- bower:css -->
         <link rel="stylesheet" href="../bower_components/leaflet-dist/leaflet.css" />
+        <link rel="stylesheet" href="../bower_components/jquery.jscrollpane/jquery.jscrollpane.css" />
         <!-- endbower -->
         <!-- endbuild -->
         <!-- build:css(.tmp) styles/main.css -->
@@ -62,6 +63,8 @@
         <script src="../bower_components/angular-strap/dist/angular-strap.min.js"></script>
         <script src="../bower_components/angular-strap/dist/angular-strap.tpl.min.js"></script>
         <script src="../bower_components/angular-slugify/angular-slugify.js"></script>
+        <script src="../bower_components/jquery.jscrollpane/jquery.jscrollpane.js"></script>
+        <script src="../bower_components/jquery-mousewheel/jquery.mousewheel.js"></script>
         <!-- endbower -->
         <!-- endbuild -->
 
@@ -84,6 +87,7 @@
         <script src="scripts/constants/animations.js"></script>
         <script src="scripts/constants/icons.js"></script>
         <script src="scripts/directives/movingBackground.js"></script>
+        <script src="scripts/directives/scrollbar.js"></script>
         <script src="scripts/services/Filters.js"></script>
         <script src="scripts/services/Dataset.js"></script>
         <script src="scripts/controllers/MapCtrl.js"></script>

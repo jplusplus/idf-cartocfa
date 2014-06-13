@@ -1,6 +1,6 @@
 <div class="map__popup" ng-controller="PopupCtrl">
     <h5 class="map__popup__title">{{cfa.name}}</h5>
-    <div ng-hide="filters.selectedCfa && filters.selectedCfa.rne == cfa.rne">
+    <div class="slide" ng-hide="filters.selectedCfa && filters.selectedCfa.rne == cfa.rne">
         <div class="map__popup__addr">
             {{cfa.address}}
             <div ng-show="cfa.cmp1">{{cfa.cmp1}}</div>

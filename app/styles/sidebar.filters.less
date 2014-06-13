@@ -7,6 +7,11 @@
     width:@sidebar-width;
     .transition(@opening-duration);
 
+    .sidebar--layout-single & {
+        top: @banner-reduce-height;
+        left: -1px*@sidebar-width;
+    }
+
     &__form {
         padding:10px 15px;
         background: url("/images/accordeon-fond.png") repeat-x left bottom;
