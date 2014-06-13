@@ -146,6 +146,7 @@ module.exports = function (grunt) {
                     ]
                 }]
             },
+            css: '<%= config.dist %>/{,*/}*.css',
             server: '.tmp'
         },
 
@@ -331,6 +332,16 @@ module.exports = function (grunt) {
             }
         },
 
+        inline: {
+            dist: {
+                options:{
+                    tag: 'styles'
+                },
+                src: ['<%= config.dist %>/index.html'],
+                dest: ['<%= config.dist %>/']
+            }
+        },
+
         // By default, your `index.html`'s <!-- Usemin block --> will take care
         // of minification. These next options are pre-configured if you do not
         // wish to use the Usemin blocks.
@@ -485,7 +496,9 @@ module.exports = function (grunt) {
         'modernizr',
         'rev',
         'usemin',
-        'htmlmin'
+        'inline',
+        'htmlmin',
+        'clean:css'
     ]);
 
     grunt.registerTask('default', [
