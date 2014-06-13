@@ -39,6 +39,11 @@ class SidebarCtrl
         # Save spaces as an array (instead of an objects)
         @scope.$watch (=>@Dataset.markers.all), (d)=> @scope.places = _.values d
 
+        @scope.$on '$typeahead.select', (ev, val)=>
+            switch @shouldShowFilter
+                when 'name'  then @filterBy 'name', val.name
+                when 'place' then @setCenter val
+
 
     setCenter: (addr)=>
         # Geocode the address asynchronously

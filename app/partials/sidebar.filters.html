@@ -46,6 +46,7 @@
                            id="search-place-input"
                            placeholder="Votre adresse..."
                            ng-model="filterByAddress"
+                           min-length="3"
                            bs-typeahead
                            autocomplete="off"
                            ng-options="addr.formatted_address as addr.formatted_address for addr in getAddress($viewValue)">
