@@ -10,4 +10,4 @@ install:
 	grunt bowerInstall
 
 staging: build
-	scp -r ./dist/ jacob.jplusplus.org:/home/pirhoo/public_html/idf-cartocfa
+	rsync --delete -ravz -e ssh ./dist/ jacob.jplusplus.org:/home/pirhoo/public_html/idf-cartocfa
