@@ -11,7 +11,7 @@
 
     &__banner {
         position:relative;
-        background:@brand-primary url("/images/banner.png") 0 0 repeat-x;
+        background:@brand-primary url("../images/banner.png") 0 0 repeat-x;
         color:white;
         display: block;
         margin:0;
@@ -22,7 +22,7 @@
         .transition(@opening-duration);
 
         &:after {
-            content:url("/images/pointeurs.png");
+            content:url("../images/pointeurs.png");
             position:absolute;
             top:170px;
             left:0;
@@ -37,7 +37,7 @@
             left: 0px;
             right: 0px;
             height: 28px;
-            background: url('/images/tetiere-shadow.png') repeat scroll 0% 0% transparent;
+            background: url('../images/tetiere-shadow.png') repeat scroll 0% 0% transparent;
         }
 
         &__title {
@@ -49,7 +49,7 @@
             .transition(@opening-duration);
 
             &:after {
-                content:url("/images/tetiere-logo.png");
+                content:url("../images/tetiere-logo.png");
                 position:absolute;
                 top:100%;
                 left:50%;
@@ -70,7 +70,7 @@
         &__close {
             z-index:10;
             position:absolute;
-            background:url("/images/close.png") left center no-repeat;
+            background:url("../images/close.png") left center no-repeat;
             display:block;
             height:25px;
             width:25px;
@@ -87,7 +87,7 @@
 
         &__buildings {
             z-index:0;
-            background:url("/images/tetiere-carrousel.png") 40px 0 repeat-x;
+            background:url("../images/tetiere-carrousel.png") 40px 0 repeat-x;
             height:82px;
             position: absolute;
             top:10px + @banner-reduce-gap;
@@ -102,7 +102,7 @@
                 left:705px;
                 top:0;
                 width: @sidebar-extented-width;
-                background:url("/images/tetiere-carrousel.png") -1px*(390px)+40px 0 repeat-x;
+                background:url("../images/tetiere-carrousel.png") -1px*(390px)+40px 0 repeat-x;
                 height:82px;
             }
 

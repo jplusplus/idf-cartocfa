@@ -118,6 +118,7 @@ angular.module("app.service").factory("Dataset", [
                         sectors : []
                         filieres: []
                         levels  : []
+                    console.log icons.default
 
                 angular.extend @markers,
                     all     : all
