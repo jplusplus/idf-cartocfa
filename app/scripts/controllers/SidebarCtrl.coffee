@@ -84,10 +84,14 @@ class SidebarCtrl
 
     getAddress: (viewValue, callback=->)=>
         return callback(error: 'No value', null) unless viewValue?
-        params = address: viewValue + ", Île-de-France", sensor: yes
+        params = address: viewValue + ", Île-de-France", sensor: no
         # Use Google Map's API to geocode the given address
         url = "http://maps.googleapis.com/maps/api/geocode/json"
         @http.get(url, params: params).then (res)->
+            if res.data.results.length and
+               res.data.results[0].formatted_address is "Île-de-France, France"
+                # No result
+                res.data.results = []
             callback null, res.data.results
             res.data.results
 
