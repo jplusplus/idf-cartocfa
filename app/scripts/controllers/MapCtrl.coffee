@@ -12,6 +12,11 @@ class MapCtrl
         @scope.markers = @Dataset.markers
         # Selected filters
         @scope.filters = @Filters
+        # Map options
+        @scope.defaults =
+            minZoom    : 9
+            maxZoom    : 14
+            zoomControl: no
         # ──────────────────────────────────────────────────────────────────────
         # Watchers and events
         # ──────────────────────────────────────────────────────────────────────
