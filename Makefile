@@ -6,7 +6,7 @@ build:
 
 install:
 	npm install
-	bower install
+	./node_modules/.bin/bower install
 	grunt bowerInstall
 
 staging: build
