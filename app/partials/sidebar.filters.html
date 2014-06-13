@@ -18,8 +18,9 @@
                            id="search-name-input"
                            ng-model="filterByName"
                            bs-typeahead
+                           min-length="2"
                            autocomplete="off"
-                           ng-options="place as place.name for place in places"
+                           ng-options="place.name for place in places"
                            placeholder="Nom du CFA..." />
                 </div>&nbsp;
                 <button type="submit" class="btn btn-primary">Chercher</button>
