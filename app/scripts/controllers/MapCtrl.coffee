@@ -14,9 +14,10 @@ class MapCtrl
         @scope.filters = @Filters
         # Map options
         @scope.defaults =
-            minZoom    : 9
-            maxZoom    : 14
-            zoomControl: no
+            minZoom        : 9
+            maxZoom        : 14
+            zoomControl    : yes
+            scrollWheelZoom: no
         # ──────────────────────────────────────────────────────────────────────
         # Watchers and events
         # ──────────────────────────────────────────────────────────────────────
