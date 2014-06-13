@@ -19,7 +19,7 @@ Install `node` and `npm` then run:
 make install
 ```
 
-Then start serve static files with Grunt!
+You can now start serving static files with Grunt!
 
 ```
 make run
