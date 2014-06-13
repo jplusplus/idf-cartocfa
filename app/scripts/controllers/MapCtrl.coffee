@@ -1,6 +1,6 @@
 class MapCtrl
-    @$inject: ['$scope', '$http', '$compile', '$location', 'Dataset', 'Filters']
-    constructor: (@scope, @http, @compile, @location, @Dataset, @Filters)->
+    @$inject: ['$scope', '$http', '$compile', '$location', 'Dataset', 'Filters', 'leafletData']
+    constructor: (@scope, @http, @compile, @location, @Dataset, @Filters, @leafletData)->
         # Load marker template
         @markerPopupHtml = '<div ng-include="\'partials/map.popup.html\'"></div>'
         # ──────────────────────────────────────────────────────────────────────
@@ -50,14 +50,19 @@ class MapCtrl
             @compile(content)(scope)
 
     updateBounds: =>
+        active = @Filters.get()[1]
         # Bounds need this format
         bounds = _.map @scope.markers.filtered, (m)-> [m.lat, m.lng]
-        # Update the bounds from the scope
-        angular.extend @scope, bounds: new L.LatLngBounds(bounds)
+        # Do not update bounds if not needed
+        if bounds.length and active isnt 'place'
+            # New bounds !
+            @leafletData.getMap("map").then (m)-> m.fitBounds(bounds)
+        else
+            @updateCenter @Filters.centers.manual
 
     updateCenter: (center)=>
-        # Update the map center if one is given
-        angular.extend @scope, center: center if center?
+        # Use set view to avoid conflicts with fit bounds
+        @leafletData.getMap("map").then (m)-> m.setView(center, center.zoom)
 
 
 
