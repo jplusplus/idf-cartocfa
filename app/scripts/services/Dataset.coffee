@@ -23,6 +23,7 @@ angular.module("app.service").factory("Dataset", [
                 $http.get('data/rne-coord.json').success @generateMarkers
                 # Watch changes on filters
                 $rootScope.$watch (=>Filters.get()), @updateFilteredMarkers, yes
+                $rootScope.$watch (=>Filters.centers.manual), @generateAddrMarker, yes
                 # watch changes for data related to each marker
                 $rootScope.$watch @isReady, @crossData, yes
 
@@ -71,7 +72,7 @@ angular.module("app.service").factory("Dataset", [
                         delete filters[key]
                 # Reset all marker
                 if _.isEmpty(filters)
-                    @markers.filtered = @markers.all
+                    @markers.filtered = @markers.all or {}
                 # Filters markers
                 else
                     @markers.filtered = {}
@@ -87,6 +88,23 @@ angular.module("app.service").factory("Dataset", [
                                 pass and= -1 isnt marker.slug.indexOf Slug.slugify(val)
                         # Add the marker only if every filters are OK
                         @markers.filtered[rne] = marker if pass
+
+                do @generateAddrMarker
+
+            # Add address marker
+            generateAddrMarker: =>
+                centers = Filters.centers
+                active  = Filters.get()[1]
+
+                if active is "place" and not angular.equals(centers.manual, centers.default)
+                    # Add address marker
+                    @markers.filtered["addr"] =
+                        icon: icons.address
+                        lat : centers.manual.lat
+                        lng : centers.manual.lng
+                else
+                    delete @markers.filtered["addr"] if @markers.filtered["addr"]?
+
 
             # Get CFA that matches with the given RNE
             getCfa: (rne)=>
