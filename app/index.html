@@ -78,8 +78,9 @@
             ga('create','UA-XXXXX-X');ga('send','pageview');
         </script>
 
-        <!-- build:js scripts/plugins.js -->
-        <!-- endbuild -->
+        <script type='text/javascript'>
+            L.Icon.Default.imagePath = L.Icon.Default.imagePath || './images';
+        </script>
 
         <!-- build:js({app,.tmp}) scripts/main.js -->
         <script src="scripts/app.js"></script>
