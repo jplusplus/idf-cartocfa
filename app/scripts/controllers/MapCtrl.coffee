@@ -6,8 +6,6 @@ class MapCtrl
         # ──────────────────────────────────────────────────────────────────────
         # Attributes available within the scope
         # ──────────────────────────────────────────────────────────────────────
-        # Default center
-        @scope.center = @Filters.centers.default
         # Default markers objects
         @scope.markers = @Dataset.markers
         # Selected filters

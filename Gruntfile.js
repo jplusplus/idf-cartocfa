@@ -497,8 +497,8 @@ module.exports = function (grunt) {
         'rev',
         'usemin',
         'inline',
-        'htmlmin',
-        'clean:css'
+        //'htmlmin',
+        //'clean:css'
     ]);
 
     grunt.registerTask('default', [
