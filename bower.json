@@ -18,5 +18,9 @@
     "jquery.jscrollpane": "~2.0.14",
     "jquery-mousewheel": "~3.1.11"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "resolutions": {
+    "bootstrap": "~3.0.3",
+    "angular": "~1.2.16"
+  }
 }
