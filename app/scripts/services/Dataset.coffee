@@ -27,7 +27,6 @@ angular.module("app.service").factory("Dataset", [
                 $rootScope.$watch @isReady, @crossData, yes
 
 
-
             # True when both dataset are loaded
             isReady: => @markers.all? and !_.isEmpty(@tree) and @degrees.length
 

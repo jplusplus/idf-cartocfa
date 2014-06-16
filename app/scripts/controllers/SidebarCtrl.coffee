@@ -118,6 +118,7 @@ class SidebarCtrl
                     @scope.addrNotFound = yes
 
     filterBy: (filter, value)=>
+        value = value.name if value.name?
         # Hide the menu
         @shouldShowSector = null
         # Remove "sub-filter"
