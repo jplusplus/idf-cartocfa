@@ -496,8 +496,8 @@ module.exports = function (grunt) {
         'modernizr',
         'rev',
         'usemin',
-        'inline',
-        //'htmlmin',
+        //'inline',
+        'htmlmin',
         //'clean:css'
     ]);
 
