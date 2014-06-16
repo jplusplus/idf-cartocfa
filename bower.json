@@ -16,7 +16,8 @@
     "angular-strap": "~2.0.0",
     "jquery.jscrollpane": "~2.0.14",
     "jquery-mousewheel": "~3.1.11",
-    "angular-typeahead": "~0.2.0"
+    "angular-typeahead": "~0.2.0",
+    "angulartics": "~0.15.18"
   },
   "devDependencies": {},
   "resolutions": {

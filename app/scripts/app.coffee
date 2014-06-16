@@ -15,6 +15,8 @@ app = angular.module 'app', [
     "leaflet-directive"
     "truncate"
     "siyfion.sfTypeahead"
+    "angulartics"
+    "angulartics.google.analytics"
     # Internal dependencies
     "app.animation"
     "app.constant"
