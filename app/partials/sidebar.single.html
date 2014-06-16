@@ -20,6 +20,7 @@
             <img src="images/link.png" /> {{filters.selectedCfa.website}}
         </a>
         <a href="mailto:{{filters.selectedCfa.email}}"
+           ng-click="trackEmailClick(filters.selectedCfa)"
            target="_blank"
            class="sidebar__single__info__mailto">
             <img src="images/mailto.png" /> {{filters.selectedCfa.email}}

@@ -64,6 +64,7 @@ class SidebarCtrl
         @scope.getActiveSector  = @getActiveSector
         @scope.getActiveFiliere = @getActiveFiliere
         @scope.getActiveLevel   = @getActiveLevel
+        @scope.trackEmailClick  = @trackEmailClick
 
         # ──────────────────────────────────────────────────────────────────────
         # Watchers
@@ -94,6 +95,8 @@ class SidebarCtrl
                         when 'name'  then @filterBy 'name', val.name
                         when 'place' then @setCenter val
 
+    trackEmailClick: (cfa)->
+        window.ga 'send', 'event', 'button', 'click', "#{cfa.rne} - #{cfa.name}"
 
     setCenter: (geo)=>
         @scope.addrNotFound = no
