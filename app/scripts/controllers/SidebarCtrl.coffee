@@ -15,7 +15,7 @@ class SidebarCtrl
         # instantiate the bloodhound suggestion engine for places
         @placeEngine = new Bloodhound
             datumTokenizer: (d) ->
-                Bloodhound.tokenizers.whitespace (d.rne or "") + "_" + (d.name or "")
+                Bloodhound.tokenizers.whitespace (d.rne or "") + " " + (d.name or "")
             queryTokenizer: Bloodhound.tokenizers.whitespace
             local: []
 
