@@ -10,20 +10,32 @@
             <p>
                 Localisez-le sur la carte<br />et découvrez son offre de filières
             </p>
-            <div class="form-inline" role="form">
-                <div class="form-group sidebar__filters__form__workspace__input">
-                    <label class="sr-only" for="search-name-input">Nom du CFA...</label>
-                    <input type="text"
-                           class="form-control"
-                           id="search-name-input"
-                           ng-model="filterByName"
-                           bs-typeahead
-                           min-length="2"
-                           autocomplete="off"
-                           ng-options="place.name for place in places"
-                           placeholder="Nom du CFA..." />
-                </div>&nbsp;
-                <button type="submit" class="btn btn-primary">Chercher</button>
+            <div class="form-horizontal" role="form">
+                <div class="form-group">
+                    <div class="col-xs-7">
+                        <label class="sr-only" for="search-name-input">Nom du CFA...</label>
+                        <input type="text"
+                               class="form-control"
+                               id="search-name-input"
+                               ng-model="filterByName"
+                               sf-typeahead
+                               autocomplete="off"
+                               datasets="places"
+                               options="{minLength:2, highlight: true}"
+                               placeholder="Nom du CFA..." />
+                    </div>
+                    <div class="col-xs-4">
+                        <button type="submit" class="btn btn-block btn-primary">Chercher</button>
+                    </div>
+                    <div class="col-xs-1">
+                        <button type="button"
+                                class="btn sidebar__filters__form__workspace__remove"
+                                ng-show="filterByName"
+                                ng-click="removeFilter(['name']); filterByName = null">
+                            X
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </form>
@@ -39,20 +51,32 @@
                 Entrez vous adresse pour trouver les établissements<br />
                 près de chez vous.
             </p>
-            <div class="form-inline" role="form">
-                <div class="form-group sidebar__filters__form__workspace__input">
-                    <label class="sr-only" for="search-place-input">Votre adresse...</label>
-                    <input type="text"
-                           class="form-control"
-                           id="search-place-input"
-                           placeholder="Votre adresse..."
-                           ng-model="filterByAddress"
-                           min-length="3"
-                           bs-typeahead
-                           autocomplete="off"
-                           ng-options="addr.formatted_address as addr.formatted_address for addr in getAddress($viewValue)">
-                </div>&nbsp;
-                <button type="submit" class="btn btn-primary">Chercher</button>
+            <div class="form-horizontal" role="form">
+                <div class="form-group">
+                    <div class="col-xs-7">
+                        <label class="sr-only" for="search-place-input">Votre adresse...</label>
+                        <input type="text"
+                               class="form-control"
+                               id="search-place-input"
+                               placeholder="Votre adresse..."
+                               ng-model="filterByAddress"
+                               sf-typeahead
+                               autocomplete="off"
+                               options="{minLength:3, highlight: true}"
+                               datasets="addr">
+                    </div>
+                    <div class="col-xs-4">
+                        <button type="submit" class="btn btn-block btn-primary">Chercher</button>
+                    </div>
+                    <div class="col-xs-1">
+                        <button type="button"
+                                class="btn sidebar__filters__form__workspace__remove"
+                                ng-show="filterByAddress"
+                                ng-click="removeFilter(['place']); filterByAddress = ''; setCenter(null)">
+                            X
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </form>

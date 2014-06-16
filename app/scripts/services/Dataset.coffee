@@ -178,6 +178,8 @@ angular.module("app.service").factory("Dataset", [
                 tree
 
             slugify: (str="")->
+                # Duck-typing: is it a string?
+                return "" unless str.replace?
                 str = str.replace(/^\s+|\s+$/g, "")
                 str = str.toLowerCase()
                 from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;"

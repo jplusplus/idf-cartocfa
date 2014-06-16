@@ -14,7 +14,7 @@ app = angular.module 'app', [
     "ngSanitize"
     "leaflet-directive"
     "truncate"
-    "mgcrea.ngStrap"
+    "siyfion.sfTypeahead"
     # Internal dependencies
     "app.animation"
     "app.constant"

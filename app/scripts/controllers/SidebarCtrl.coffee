@@ -1,23 +1,54 @@
 class SidebarCtrl
-    @$inject: ['$scope', '$http', '$location', 'Filters', 'Dataset']
-    constructor: (@scope, @http, @location, @Filters, @Dataset)->
+    @$inject: ['$scope', '$rootScope', '$q', '$http', '$location', 'Filters', 'Dataset']
+    constructor: (@scope, @rootScope, @q, @http, @location, @Filters, @Dataset)->
         @empty = []
         # Filter to display
         @shouldShowFilter = 'sector'
         @shouldShowSector = null
+
+        # instantiate the bloodhound suggestion engine for places
+        @placeEngine = new Bloodhound(
+            datumTokenizer: (d) ->
+                Bloodhound.tokenizers.whitespace (d.rne or "") + "_" + (d.name or "")
+            queryTokenizer: Bloodhound.tokenizers.whitespace
+            local: []
+        )
+
+        # instantiate the bloodhound suggestion engine for addr from GoogleMap
+        @addrEngine = new Bloodhound(
+            datumTokenizer: Bloodhound.tokenizers.obj.whitespace("value")
+            queryTokenizer: Bloodhound.tokenizers.whitespace
+            remote:
+                url: "http://maps.googleapis.com/maps/api/geocode/json?address=%QUERY,Île-de-France, France"
+                filter: (data)->
+                    if data.results.length and
+                       data.results[0].formatted_address is "Île-de-France, France"
+                        # No result
+                        return []
+                    else
+                        return data.results
+        )
+
+
+        # initialize the bloodhound suggestion engines
+        @placeEngine.initialize()
+        @addrEngine.initialize()
+
         # ──────────────────────────────────────────────────────────────────────
         # Methods and attributes available within the scope
         # ──────────────────────────────────────────────────────────────────────
         @scope.places       = []
+        @scope.addr         =
+            displayKey: 'formatted_address'
+            source    : @addrEngine.ttAdapter()
         @scope.filters      = @Filters
-        @scope.getAddress   = @getAddress
         @scope.shouldShowFilter = (filter)=> @shouldShowFilter is filter
         @scope.shouldShowSector = (sector)=> @shouldShowSector is sector
         # Toggle some elements
         @scope.toggleFilter = (f)=>
             @shouldShowFilter = if @shouldShowFilter is f then null else f
             # Activate the given filter
-            @Filters.activate f
+            @Filters.activate @shouldShowFilter
         @scope.toggleSector = (s)=> @shouldShowSector = if @shouldShowSector is s then null else s
         # Update map center
         @scope.setCenter    = @setCenter
@@ -40,24 +71,38 @@ class SidebarCtrl
         # Save spaces as an array (instead of an objects)
         @scope.$watch (=>@Dataset.markers), =>
             if @Dataset.markers.all?
-                @scope.places = _.map _.values(@Dataset.markers.all), (place)->
+                places = _.map _.values(@Dataset.markers.all), (place)->
                     name: place.name
                     rne: place.rne
+                @placeEngine.clear()
+                @placeEngine.add(places)
+                @scope.places =
+                    displayKey: 'name',
+                    source: @placeEngine.ttAdapter()
         , yes
 
-        @scope.$on '$typeahead.select', (ev, val)=>
-            switch @shouldShowFilter
-                when 'name'  then @filterBy 'name', val.name
-                when 'place' then @setCenter val
+        @scope.$on 'typeahead:selected', (ev, val)=>
+            if val?
+                @rootScope.safeApply =>
+                    switch @shouldShowFilter
+                        when 'name'  then @filterBy 'name', val.name
+                        when 'place' then @setCenter val
 
 
-    setCenter: (addr)=>
-        # Geocode the address asynchronously
-        @getAddress addr, (err, res)=>
-            unless err? or res.length is 0
-                angular.extend @Filters.centers.manual, res[0].geometry.location
-                angular.extend @Filters.centers.manual, zoom: 14
-
+    setCenter: (geo)=>
+        if geo is null
+            angular.extend @Filters.centers.manual, @Filters.centers.default
+            if @Dataset.markers.filtered['addr']?
+                delete @Dataset.markers.filtered['addr']
+        else if geo.geometry?
+            angular.extend @Filters.centers.manual, geo.geometry.location
+            angular.extend @Filters.centers.manual, zoom: 14
+        else
+            @getAddress(geo).then (results)=>
+                if results.length
+                    geometry = results[0].geometry
+                    angular.extend @Filters.centers.manual, geometry.location
+                    angular.extend @Filters.centers.manual, zoom: 14
 
     filterBy: (filter, value)=>
         # Hide the menu
@@ -93,20 +138,22 @@ class SidebarCtrl
     getActiveFiliere: (alt="Tous")=> @Filters.active('filiere') or alt
     getActiveLevel  : (alt="Tous")=> @Filters.active('level') or alt
 
-    getAddress: (viewValue, callback=->)=>
-        return callback(error: 'No value', null) unless viewValue?
-        params = address: viewValue + ", Île-de-France", sensor: no
+    getAddress: (value)=>
+        deferred = do @q.defer
+        return deferred.reject('No value') unless value?
+        params = address: value + ", Île-de-France", sensor: no
         # Use Google Map's API to geocode the given address
         url = "http://maps.googleapis.com/maps/api/geocode/json"
         @http.get(url, params: params).then (res)->
-            if res.data.results.length and
-               res.data.results[0].formatted_address is "Île-de-France, France"
-                # No result
-                res.data.results = []
-            callback null, res.data.results
-            res.data.results
-
-
+            if res.data.results?
+                if res.data.results.length and
+                res.data.results[0].formatted_address is "Île-de-France, France"
+                    # No result
+                    res.data.results = []
+                deferred.resolve res.data.results
+            else
+                deferred.reject 'No result'
+        return deferred.promise
 
 
 
