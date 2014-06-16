@@ -62,14 +62,19 @@ class SidebarCtrl
     filterBy: (filter, value)=>
         # Hide the menu
         @shouldShowSector = null
+        # Remove "sub-filter"
+        switch filter
+            when "sector" then @removeFilter ['filiere', 'level']
+            when "filiere" then @removeFilter ['level']
         # Update filter
         @Filters.set filter, value
 
-    removeFilter: (filter)=>
+    removeFilter: (filters)=>
         # Hide the menu
         @shouldShowSector = null
         # Update filter
-        @Filters.set filter, null
+        @Filters.set filter, null for filter in filters
+
 
     # Get filters sets
     getSectors: =>

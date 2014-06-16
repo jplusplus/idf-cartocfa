@@ -1,4 +1,4 @@
-<div class="sidebar__filters" scrollbar>
+<div class="sidebar__filters">
     <form class="sidebar__filters__form sidebar__filters__form--search-name"
           ng-submit="filterBy('name', filterByName)"
           ng-class="{ 'sidebar__filters__form--open': shouldShowFilter('name') }">
@@ -81,7 +81,7 @@
                         <div class="panel sidebar__filters__form__workspace__dropdown__panel"
                              ng-show="shouldShowSector('sector')">
                             <a class="sidebar__filters__form__workspace__dropdown__panel__header"
-                                ng-click="removeFilter('sector')">
+                                ng-click="removeFilter(['sector', 'filiere', 'level'])">
                                 Tous secteurs
                             </a>
                             <ul class="list-unstyled sidebar__filters__form__workspace__dropdown__panel__list">
@@ -97,7 +97,7 @@
                         <button type="button"
                                 class="btn sidebar__filters__form__workspace__remove"
                                 ng-show="filters.get('sector')"
-                                ng-click="removeFilter('sector')">
+                                ng-click="removeFilter(['sector', 'filiere', 'level'])">
                             X
                         </button>
                     </div>
@@ -116,7 +116,7 @@
                         <div class="panel sidebar__filters__form__workspace__dropdown__panel"
                              ng-show="shouldShowSector('filiere')">
                             <a class="sidebar__filters__form__workspace__dropdown__panel__header"
-                                ng-click="removeFilter('filiere')">
+                                ng-click="removeFilter(['filiere', 'level'])">
                                 Toutes filières
                             </a>
                             <ul class="list-unstyled sidebar__filters__form__workspace__dropdown__panel__list">
@@ -132,7 +132,7 @@
                         <button type="button"
                                 class="btn sidebar__filters__form__workspace__remove"
                                 ng-show="filters.get('filiere')"
-                                ng-click="removeFilter('filiere')">
+                                ng-click="removeFilter(['filiere', 'level'])">
                             X
                         </button>
                     </div>
@@ -151,7 +151,7 @@
                         <div class="panel sidebar__filters__form__workspace__dropdown__panel"
                              ng-show="shouldShowSector('level')">
                             <a class="sidebar__filters__form__workspace__dropdown__panel__header"
-                                ng-click="removeFilter('level')">
+                                ng-click="removeFilter(['level'])">
                                 Tous niveaux
                             </a>
                             <ul class="list-unstyled sidebar__filters__form__workspace__dropdown__panel__list">
@@ -167,7 +167,7 @@
                         <button type="button"
                                 class="btn sidebar__filters__form__workspace__remove"
                                 ng-show="filters.get('level')"
-                                ng-click="removeFilter('level')">
+                                ng-click="removeFilter(['level'])">
                             X
                         </button>
                     </div>
