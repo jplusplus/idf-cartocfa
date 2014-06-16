@@ -35,7 +35,6 @@ class MapCtrl
         @scope.$on 'leafletDirectiveMap.click', => @location.search('rne', null)
         # Catch click on a marker
         @scope.$on 'leafletDirectiveMarker.popupopen', (ev, el)=>
-            console.log "yolo"
             rne = el.markerName
             # Create the popup view when is opened
             scope = @scope.$new()

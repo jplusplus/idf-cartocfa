@@ -38,10 +38,11 @@ class SidebarCtrl
         # Watchers
         # ──────────────────────────────────────────────────────────────────────
         # Save spaces as an array (instead of an objects)
-        @scope.$watch (=>@Dataset.markers.all), (d)=>
-            @scope.places = _.map _.values(d), (place)->
-                name: place.name
-                rne: place.rne
+        @scope.$watch (=>@Dataset.markers), =>
+            if @Dataset.markers.all?
+                @scope.places = _.map _.values(@Dataset.markers.all), (place)->
+                    name: place.name
+                    rne: place.rne
         , yes
 
         @scope.$on '$typeahead.select', (ev, val)=>

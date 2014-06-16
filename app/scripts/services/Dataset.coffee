@@ -4,12 +4,11 @@ angular.module("app.service").factory("Dataset", [
     '$q',
     'icons',
     'Filters',
-    'Slug',
-    ($http, $rootScope, $q, icons, Filters, Slug)->
+    ($http, $rootScope, $q, icons, Filters)->
         new class Dataset
             tree     : []
             details  : []
-            degress  : []
+            degrees  : []
             markers  : {}
             # ─────────────────────────────────────────────────────────────────
             # Public method
@@ -30,31 +29,32 @@ angular.module("app.service").factory("Dataset", [
 
 
             # True when both dataset are loaded
-            isReady: => !_.isEmpty(@markers) and !_.isEmpty(@tree) and !_.isEmpty(@degrees)
+            isReady: => @markers.all? and !_.isEmpty(@tree) and @degrees.length
 
             # Associate data to the right markers and places to the right degree
             crossData: (isLoaded)=>
                 # Only if the data are loaded
                 if isLoaded
                     # Look into each marker
-                    angular.forEach @markers.all, (marker, rne)=>
+                    for own rne, marker of @markers.all
                         # Filter to only keep degrees related to this place
                         degrees = _.where @degrees, rne: rne
                         # Only keep degree id
                         marker.degrees = _.pluck degrees, "id"
-                        # Extract address from the first degreee
-                        angular.extend marker, degrees[0]
                         # Extract data about this place from the 1st degree
                         # (data aren't atomic)
                         if degrees.length
+                            # Extract address from the first degreee
+                            angular.extend marker, degrees[0]
+                            # Extract name too
                             marker.name    = degrees[0].name
                             marker.message = marker.name
-                            marker.slug    = Slug.slugify(marker.name)
+                            marker.slug    = @slugify(marker.name)
                         # Extract individuals (sector, level, filiere)
                         # for this places and according its degrees
                         angular.forEach degrees, (degree)=>
                             # Find details of the given degree
-                            details = _.findWhere @details, id: degree.id
+                            details = @detailsById[degree.id]
                             # Records individuals
                             unless _.contains(marker.sectors, details.sector)
                                 marker.sectors.push(details.sector)
@@ -83,10 +83,10 @@ angular.module("app.service").factory("Dataset", [
                         for own key, val of filters
                             # Filter by sector
                             if active is 'sector' and _.contains Filters.KEYS.SECTOR, key
-                                pass and= _.contains marker[key + "s"], val
+                                pass = pass && _.contains marker[key + "s"], val
                             # Filter by name
                             if active is 'name' and _.contains Filters.KEYS.NAME, key
-                                pass and= -1 isnt marker.slug.indexOf Slug.slugify(val)
+                                pass = pass && -1 isnt marker.slug.indexOf @slugify(val)
                         # Add the marker only if every filters are OK
                         @markers.filtered[rne] = marker if pass
 
@@ -123,7 +123,7 @@ angular.module("app.service").factory("Dataset", [
             generateMarkers: (data)=>
                 all = {}
 
-                angular.forEach data, (place)=>
+                for place in data
                     all[place.rne] =
                         lat    : 1*place.lat
                         lng    : 1*place.lng
@@ -138,13 +138,16 @@ angular.module("app.service").factory("Dataset", [
                         filieres: []
                         levels  : []
 
-                angular.extend @markers,
-                    all     : all
-                    filtered: all
+                @markers.all = all
+                @markers.filtered = all
 
             # Generates a tree of trainings sectors, filieres and levels
             generateTree: (data)=>
                 @details = data
+                # Create an object with each detail
+                @detailsById = {}
+                @detailsById[detail.id] = detail for detail in @details
+
                 @tree = @tree.concat @getTree(data)
 
             getTree: (data, filter)->
@@ -173,4 +176,14 @@ angular.module("app.service").factory("Dataset", [
                     tree.push sectorObj
                 # Return the tree
                 tree
+
+            slugify: (str="")->
+                str = str.replace(/^\s+|\s+$/g, "")
+                str = str.toLowerCase()
+                from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;"
+                to = "aaaaeeeeiiiioooouuuunc------"
+                for i in [0..from.length]
+                    str = str.replace(new RegExp(from.charAt(i), "g"), to.charAt(i))
+                str = str.replace(/[^a-z0-9 -]/g, "").replace(/\s+/g, "-").replace(/-+/g, "-")
+                str
 ])
