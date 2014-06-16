@@ -46,6 +46,8 @@ class MapCtrl
             content.html @markerPopupHtml
             # Compile template with the new scope
             @compile(content)(scope)
+            # Close current pane
+            @Filters.selectedCfa = null unless @Filters.selectedCfa.rne is rne
 
     updateBounds: =>
         active = @Filters.get()[1]
