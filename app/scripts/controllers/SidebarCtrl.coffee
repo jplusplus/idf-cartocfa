@@ -4,35 +4,39 @@ class SidebarCtrl
         @empty = []
         # Filter to display
         @shouldShowFilter = 'sector'
-        @shouldShowSector = null
+        @shouldShowSector =
+        @bounds     =
+            ne: [49.256857, 3.580622]
+            sw: [48.103566, 1.232294]
+        @gmapBounds = @bounds.sw.join(",") + "|" + @bounds.ne.join(",")
+        @gmapUrl    = "http://maps.googleapis.com/maps/api/geocode/json?region=fr&bounds="
+        @gmapUrl    = @gmapUrl + @gmapBounds
 
         # instantiate the bloodhound suggestion engine for places
-        @placeEngine = new Bloodhound(
+        @placeEngine = new Bloodhound
             datumTokenizer: (d) ->
                 Bloodhound.tokenizers.whitespace (d.rne or "") + "_" + (d.name or "")
             queryTokenizer: Bloodhound.tokenizers.whitespace
             local: []
-        )
 
         # instantiate the bloodhound suggestion engine for addr from GoogleMap
-        @addrEngine = new Bloodhound(
+        @addrEngine = new Bloodhound
             datumTokenizer: Bloodhound.tokenizers.obj.whitespace("value")
             queryTokenizer: Bloodhound.tokenizers.whitespace
             remote:
-                url: "http://maps.googleapis.com/maps/api/geocode/json?address=%QUERY,Île-de-France, France"
-                filter: (data)->
-                    if data.results.length and
-                       data.results[0].formatted_address is "Île-de-France, France"
-                        # No result
-                        return []
-                    else
-                        return data.results
-        )
+                url: "#{@gmapUrl}&address=%QUERY"
+                filter: (data)=>
+                    _.filter data.results, (d)=> @inBounds(d.geometry.location)
 
 
         # initialize the bloodhound suggestion engines
         @placeEngine.initialize()
         @addrEngine.initialize()
+
+        # Chech that the given location is in bound:
+        @inBounds = (location)=>
+            location.lat > @bounds.sw[0] and location.lat < @bounds.ne[0] and
+            location.lng > @bounds.sw[1] and location.lng < @bounds.ne[1]
 
         # ──────────────────────────────────────────────────────────────────────
         # Methods and attributes available within the scope
@@ -150,16 +154,13 @@ class SidebarCtrl
     getAddress: (value)=>
         deferred = do @q.defer
         return deferred.reject('No value') unless value?
-        params = address: value + ", Île-de-France", sensor: no
         # Use Google Map's API to geocode the given address
-        url = "http://maps.googleapis.com/maps/api/geocode/json"
-        @http.get(url, params: params).then (res)->
-            if res.data.results?
-                if res.data.results.length and
-                res.data.results[0].formatted_address is "Île-de-France, France"
-                    # No result
-                    res.data.results = []
-                deferred.resolve res.data.results
+        url = "#{@gmapUrl}&address=#{value}"
+        @http.get(url).then (res)=>
+            # Filter by the given bound
+            res = _.filter res.data.results, (d)=>@inBounds(d.geometry.location)
+            if res?
+                deferred.resolve res
             else
                 deferred.reject 'No result'
         return deferred.promise
