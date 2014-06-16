@@ -510,6 +510,7 @@ module.exports = function (grunt) {
         'usemin',
         //'inline',
         'htmlmin',
+        'compress',
         //'clean:css'
     ]);
 
