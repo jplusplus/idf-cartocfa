@@ -8,6 +8,7 @@ class SidebarCtrl
         # ──────────────────────────────────────────────────────────────────────
         # Methods and attributes available within the scope
         # ──────────────────────────────────────────────────────────────────────
+        @scope.places       = []
         @scope.filters      = @Filters
         @scope.getAddress   = @getAddress
         @scope.shouldShowFilter = (filter)=> @shouldShowFilter is filter

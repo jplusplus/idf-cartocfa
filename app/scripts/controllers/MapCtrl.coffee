@@ -16,6 +16,7 @@ class MapCtrl
             maxZoom        : 14
             zoomControl    : yes
             scrollWheelZoom: no
+
         # ──────────────────────────────────────────────────────────────────────
         # Watchers and events
         # ──────────────────────────────────────────────────────────────────────
@@ -30,11 +31,11 @@ class MapCtrl
                 # Reset data
                 @Filters.selectedCfa = null
 
-
         # Reset selection when clicking on the map
         @scope.$on 'leafletDirectiveMap.click', => @location.search('rne', null)
         # Catch click on a marker
         @scope.$on 'leafletDirectiveMarker.popupopen', (ev, el)=>
+            console.log "yolo"
             rne = el.markerName
             # Create the popup view when is opened
             scope = @scope.$new()

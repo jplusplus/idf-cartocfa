@@ -45,6 +45,11 @@
         &__workspace {
             padding-bottom:10px;
 
+            &__input {
+                width: 200px;
+                float:left;
+            }
+
             &__label.control-label {
                 text-transform: uppercase;
                 font-size:90%;
@@ -75,6 +80,10 @@
                     padding:0 10px;
                     z-index:20;
                     .box-shadow(0 0 5px fade(#000, 60));
+
+                    .no-boxshadow & {
+                        border: 1px solid @text-color;
+                    }
 
 
                     a {
