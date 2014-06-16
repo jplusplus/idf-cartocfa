@@ -37,6 +37,9 @@
                     </div>
                 </div>
             </div>
+            <div class="alert alert-warning slide" ng-show="placeNotFound">
+                Aucun CFA ne correspond à ces critères.
+            </div>
         </div>
     </form>
     <form class="sidebar__filters__form sidebar__filters__form--search-place"
@@ -77,6 +80,9 @@
                         </button>
                     </div>
                 </div>
+            </div>
+            <div class="alert alert-warning slide" ng-show="addrNotFound">
+                Aucune adresse ne correspond à votre recherche.
             </div>
         </div>
     </form>

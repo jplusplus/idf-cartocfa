@@ -74,11 +74,17 @@ class SidebarCtrl
                 places = _.map _.values(@Dataset.markers.all), (place)->
                     name: place.name
                     rne: place.rne
+                # Remove any previous dataset
                 @placeEngine.clear()
                 @placeEngine.add(places)
+                # Bind placeEngine to the scope
                 @scope.places =
                     displayKey: 'name',
                     source: @placeEngine.ttAdapter()
+
+                # Update notfound messages
+                @scope.placeNotFound = @shouldShowFilter is 'name' and _.isEmpty(@Dataset.markers.filtered)
+
         , yes
 
         @scope.$on 'typeahead:selected', (ev, val)=>
@@ -90,6 +96,7 @@ class SidebarCtrl
 
 
     setCenter: (geo)=>
+        @scope.addrNotFound = no
         if geo is null
             angular.extend @Filters.centers.manual, @Filters.centers.default
             if @Dataset.markers.filtered['addr']?
@@ -103,6 +110,8 @@ class SidebarCtrl
                     geometry = results[0].geometry
                     angular.extend @Filters.centers.manual, geometry.location
                     angular.extend @Filters.centers.manual, zoom: 14
+                else
+                    @scope.addrNotFound = yes
 
     filterBy: (filter, value)=>
         # Hide the menu
