@@ -31,7 +31,8 @@
     "grunt-convert": "~0.1.11",
     "less": "1.7.0",
     "bower": "~1.2.8",
-    "grunt-inline": "~0.3.0"
+    "grunt-inline": "~0.3.0",
+    "grunt-contrib-compress": "~0.9.1"
   },
   "engines": {
     "node": ">=0.10.0"
