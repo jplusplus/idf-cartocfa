@@ -49,8 +49,8 @@
                         <h6 class="sidebar__single__degrees__sector__filiere">
                             {{filiere.name}}
                         </h6>
-                        <div class="sidebar__single__degrees__sector__degree">
-                            {{filiere.degree}}
+                        <div class="sidebar__single__degrees__sector__degree" ng-repeat="degree in filiere.degrees">
+                            {{degree.name}}
                         </div>
                     </li>
                 </ul>

@@ -163,25 +163,28 @@ angular.module("app.service").factory("Dataset", [
                 tree = []
                 # Optional: filter the data
                 data = _.filter data, filter if filter?
-                sectors = _.uniq(_.pluck(data, 'sector'))
+                sectors = _.uniq(_.pluck(data, 'sector') )
                 # First level: sector
                 for sector in sectors
                     # Create a sector object
                     sectorObj    = name: sector, filieres: []
-                    dataBySector = _.where(data, 'sector': sector)
-                    filieres     = _.uniq(_.pluck(data, 'filiere'))
-                    # Second level: filiere
-                    for filiere in filieres
-                        dataByFiliere = _.where(dataBySector, filiere: filiere)
-                        levels        = _.uniq(_.pluck(dataByFiliere, 'level'))
-                        filiereObj    =
-                            name  : filiere
-                            degree: dataBySector[0].name
-                            levels: []
-                        # Third level: level
-                        for level in levels
-                            filiereObj.levels.push name: level
-                        sectorObj.filieres.push filiereObj
+                    # Get degrees for this sector
+                    degreesBySector = _.where(data, 'sector': sector)
+                    # Extract filieres for this sector
+                    filieresBySector = _.uniq( _.pluck(degreesBySector, 'filiere') )
+
+                    for filiere in filieresBySector
+                        # Get degrees for this filiere
+                        degreesByFiliere = _.where(degreesBySector, 'filiere': filiere)
+                        # Extract levels for this filiere
+                        levelsByFiliere = _.uniq( _.pluck(degreesByFiliere, 'level') )
+
+                        # Create filiere obj to append to sector's filieres
+                        sectorObj.filieres.push
+                            name   : filiere
+                            degrees: degreesByFiliere
+                            levels : _.map levelsByFiliere, (level)-> name: level
+
                     tree.push sectorObj
                 # Return the tree
                 tree
