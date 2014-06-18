@@ -20,7 +20,7 @@ class MapCtrl
         # ──────────────────────────────────────────────────────────────────────
         # Watchers and events
         # ──────────────────────────────────────────────────────────────────────
-        @scope.$watch 'markers.filtered', @updateBounds
+        @scope.$watch 'markers.filtered', @updateBounds, yes
         @scope.$watch (=>@Filters.centers.manual), @updateCenter, yes
         # Watch location to update selectedCfa
         @scope.$watch (=> @location.search().rne), (rne)=>

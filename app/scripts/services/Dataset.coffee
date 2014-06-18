@@ -106,14 +106,15 @@ angular.module("app.service").factory("Dataset", [
                 centers = Filters.centers
                 active  = Filters.get()[1]
 
+                delete @markers.filtered["addr"] if @markers.filtered["addr"]?
+
                 if active is "place" and not angular.equals(centers.manual, centers.default)
                     # Add address marker
                     @markers.filtered["addr"] =
                         icon: icons.address
                         lat : centers.manual.lat
                         lng : centers.manual.lng
-                else
-                    delete @markers.filtered["addr"] if @markers.filtered["addr"]?
+
 
 
             # Get CFA that matches with the given RNE
