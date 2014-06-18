@@ -150,7 +150,7 @@
                                 Toutes filières
                             </a>
                             <ul class="list-unstyled sidebar__filters__form__workspace__dropdown__panel__list">
-                                <li ng-repeat="filiere in getFilieres()">
+                                <li ng-repeat="filiere in getFilieres() | orderBy:'name'">
                                     <a ng-click="filterBy('filiere', filiere.name)">
                                         {{filiere.name}}
                                     </a>
@@ -185,7 +185,7 @@
                                 Tous niveaux
                             </a>
                             <ul class="list-unstyled sidebar__filters__form__workspace__dropdown__panel__list">
-                                <li ng-repeat="level in getLevels()">
+                                <li ng-repeat="level in getLevels() | orderBy:'name'">
                                     <a ng-click="filterBy('level', level.name)">
                                         {{level.name}}
                                     </a>
