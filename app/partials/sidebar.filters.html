@@ -115,7 +115,7 @@
                                 Tous secteurs
                             </a>
                             <ul class="list-unstyled sidebar__filters__form__workspace__dropdown__panel__list">
-                                <li ng-repeat="sector in getSectors()">
+                                <li ng-repeat="sector in getSectors() | orderBy:'name'">
                                     <a ng-click="filterBy('sector', sector.name)">
                                         {{sector.name}}
                                     </a>
