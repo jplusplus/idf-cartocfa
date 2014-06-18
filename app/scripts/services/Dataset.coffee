@@ -17,7 +17,15 @@ angular.module("app.service").factory("Dataset", [
                 # Create a promise to be resolve when all data are loaded
                 @deferred = do $q.defer
                 # Load datasets
-                $http.get('data/degree-places.json').success (data)=> @degrees = data
+                $http.get('data/degree-places.json').success (data_1) =>
+                    $http.get('data/employers.json').success (data_2) =>
+                        @degrees = data_1
+                        data_2 = _.indexBy data_2, 'Code RNE'
+                        for key of @degrees
+                            rne = @degrees[key].rne
+                            if data_2[rne]?
+                                @degrees[key].phone = data_2[rne]['Téléphone Contact'] if data_2[rne]['Téléphone Contact'] isnt ''
+                                @degrees[key].email = data_2[rne]['Email Contact'] if data_2[rne]['Email Contact'] isnt ''
                 $http.get('data/degree-details.json').success @generateTree
                 $http.get('data/rne-coord.json').success @generateMarkers
                 # Watch changes on filters

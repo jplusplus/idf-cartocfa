@@ -46,7 +46,11 @@ module.exports = function (grunt) {
                     {
                         src: ['<%= config.app %>/data/degree-details.csv'],
                         dest: '<%= config.app %>/data/degree-details.json'
-                    }
+                    },
+                    {
+                        src: ['<%= config.app %>/data/employers.csv'],
+                        dest: '<%= config.app %>/data/employers.json'
+                    },
                 ]
             }
         },
