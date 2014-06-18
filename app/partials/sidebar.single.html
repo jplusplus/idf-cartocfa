@@ -50,7 +50,7 @@
                             {{filiere.name}}
                         </h6>
                         <div class="sidebar__single__degrees__sector__degree"
-                             ng-class-even="sidebar__single__degrees__sector__degree--even"
+                             ng-class="{ 'sidebar__single__degrees__sector__degree--odd': $odd }"
                              ng-repeat="degree in filiere.degrees">
                             {{degree.name}}
                         </div>
