@@ -169,7 +169,7 @@ angular.module("app.service").factory("Dataset", [
                     # Create a sector object
                     sectorObj    = name: sector, filieres: []
                     dataBySector = _.where(data, 'sector': sector)
-                    filieres     = _.uniq(_.pluck(dataBySector, 'filiere'))
+                    filieres     = _.uniq(_.pluck(data, 'filiere'))
                     # Second level: filiere
                     for filiere in filieres
                         dataByFiliere = _.where(dataBySector, filiere: filiere)
