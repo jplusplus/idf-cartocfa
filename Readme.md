@@ -24,3 +24,11 @@ You can now start serving static files with Grunt!
 ```
 make run
 ```
+
+## Deploy on Git Pages
+
+Run the following command 
+
+```
+make deploy
+```
