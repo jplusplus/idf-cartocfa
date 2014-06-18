@@ -24,8 +24,10 @@ angular.module("app.service").factory("Dataset", [
                         for key of @degrees
                             rne = @degrees[key].rne
                             if data_2[rne]?
-                                @degrees[key].phone = data_2[rne]['Téléphone Contact'] if data_2[rne]['Téléphone Contact'] isnt ''
-                                @degrees[key].email = data_2[rne]['Email Contact'] if data_2[rne]['Email Contact'] isnt ''
+                                info = data_2[rne]
+                                @degrees[key].phone = info['Téléphone Contact'] if info['Téléphone Contact'] isnt ''
+                                @degrees[key].email = info['Email Contact'] if info['Email Contact'] isnt ''
+                                @degrees[key].civility = "#{info['Civilité Contact']} #{info['Prenom Contact']} #{info['Nom Contact']}"
                 $http.get('data/degree-details.json').success @generateTree
                 $http.get('data/rne-coord.json').success @generateMarkers
                 # Watch changes on filters
