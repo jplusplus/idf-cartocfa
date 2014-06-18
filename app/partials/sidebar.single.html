@@ -9,6 +9,12 @@
                 {{filters.selectedCfa.cmp2}}
             </div>
             <div>{{filters.selectedCfa.insee}}, {{filters.selectedCfa.city}}</div>
+            <a href="http://{{filters.selectedCfa.website}}"
+               class="sidebar__single__info__website"
+               target="_blank"
+               ng-show="filters.selectedCfa.website !== '' && filters.selectedCfa.email != filters.selectedCfa.website">
+                <img src="images/link.png" /> {{filters.selectedCfa.website}}
+            </a>
         </div>
         <div class="sidebar__single__info__civ">
             {{filters.selectedCfa.civility}}
@@ -16,12 +22,6 @@
         <div class="sidebar__single__info__phone">
             {{filters.selectedCfa.phone}}
         </div>
-        <a href="http://{{filters.selectedCfa.website}}"
-           class="sidebar__single__info__website"
-           target="_blank"
-           ng-show="filters.selectedCfa.website !== '' && filters.selectedCfa.email != filters.selectedCfa.website">
-            <img src="images/link.png" /> {{filters.selectedCfa.website}}
-        </a>
         <a href="mailto:{{filters.selectedCfa.email}}"
            analytics-on="click"
            analytics-category="CFA"
