@@ -358,6 +358,17 @@ module.exports = function (grunt) {
             }
         },
 
+        buildcontrol: {
+            dist: {
+                options: {
+                    remote: '../',
+                    branch: 'gh-pages',
+                    commit: true,
+                    push: true
+                }
+            }
+        },
+
         // By default, your `index.html`'s <!-- Usemin block --> will take care
         // of minification. These next options are pre-configured if you do not
         // wish to use the Usemin blocks.
@@ -514,8 +525,17 @@ module.exports = function (grunt) {
         'usemin',
         //'inline',
         'htmlmin',
-        'compress',
         //'clean:css'
+    ]);
+
+    grunt.registerTask('export', [
+        'build',
+        'compress'
+    ]);
+
+    grunt.registerTask('deploy', [
+        'build',
+        'buildcontrol'
     ]);
 
     grunt.registerTask('default', [
