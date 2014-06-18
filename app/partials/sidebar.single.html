@@ -49,7 +49,9 @@
                         <h6 class="sidebar__single__degrees__sector__filiere">
                             {{filiere.name}}
                         </h6>
-                        <div class="sidebar__single__degrees__sector__degree" ng-repeat="degree in filiere.degrees">
+                        <div class="sidebar__single__degrees__sector__degree"
+                             ng-class-even="sidebar__single__degrees__sector__degree--even"
+                             ng-repeat="degree in filiere.degrees">
                             {{degree.name}}
                         </div>
                     </li>
