@@ -14,3 +14,4 @@ staging: build
 
 deploy:
 	grunt deploy
+	git push origin gh-pages
