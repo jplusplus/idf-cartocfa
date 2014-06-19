@@ -21,13 +21,15 @@
         text-transform: uppercase;
         .transition(@opening-duration);
 
-        &:after {
-            content:url("../images/pointeurs.png");
+        &__markers {
+            background:url("../images/pointeurs.png");
             position:absolute;
             top:170px;
             left:0;
+            width: @sidebar-width;
+            height:106px;
             z-index:10;
-            .transition(0.7s);
+            .transition(@opening-duration);
         }
 
         &:before {
@@ -94,7 +96,7 @@
             left:50%;
             width: @sidebar-extented-width;
             margin-left: -1px * @sidebar-extented-width/2px;
-            .transition(0.7s);
+            .transition(@opening-duration);
 
             &:after {
                 content: "";
@@ -121,11 +123,8 @@
         .sidebar__banner {
             margin-top: -1px * @banner-reduce-gap;
 
-            .lt-ie9 &:after {
-                display: none;
-            }
-
-            &__title {
+            &__title,
+            &__markers {
                 margin-left: -1px * @sidebar-extented-width;
             }
 
