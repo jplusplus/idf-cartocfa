@@ -37,9 +37,9 @@ class MapCtrl
         @scope.$on 'leafletDirectiveMarker.popupopen', (ev, el)=>
             rne = el.markerName
             # Create the popup view when is opened
-            scope = @scope.$new()
+            scope = @scope.$new(yes)
             # Add cfa to the new
-            @Dataset.getCfa(rne).then (cfa)-> angular.extend scope, cfa: cfa
+            @Dataset.getCfa(rne, no).then (cfa)-> angular.extend scope, cfa: cfa
             # Get popup node
             content = angular.element el.leafletEvent.popup._contentNode
             content.html @markerPopupHtml

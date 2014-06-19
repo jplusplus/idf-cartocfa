@@ -110,14 +110,15 @@ angular.module("app.service").factory("Dataset", [
 
 
             # Get CFA that matches with the given RNE
-            getCfa: (rne)=>
+            getCfa: (rne, withDetails=yes)=>
                 deferred = do $q.defer
                 @deferred.promise.then =>
                     cfa = @markers.all[rne]
-                    # Extract degree's details for this CFA
-                    cfa.details = _.filter @details, (d)-> _.contains cfa.degrees, d.id
-                    # Group by sector, filiere, level
-                    cfa.details = @getTree cfa.details
+                    if withDetails
+                        # Extract degree's details for this CFA
+                        cfa.details = _.filter @details, (d)-> _.contains cfa.degrees, d.id
+                        # Group by sector, filiere, level
+                        cfa.details = @getTree cfa.details
                     deferred.resolve(cfa)
                 return deferred.promise
 
