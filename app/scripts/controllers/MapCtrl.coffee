@@ -2,7 +2,7 @@ class MapCtrl
     @$inject: ['$scope', '$http', '$compile', '$location', 'Dataset', 'Filters', 'leafletData']
     constructor: (@scope, @http, @compile, @location, @Dataset, @Filters, @leafletData)->
         # Load marker template
-        @markerPopupHtml = '<div ng-include="\'partials/map.popup.html\'"></div>'
+        @markerPopupHtml = '<div ng-include="\'map.popup.html\'"></div>'
         # ──────────────────────────────────────────────────────────────────────
         # Attributes available within the scope
         # ──────────────────────────────────────────────────────────────────────

@@ -80,6 +80,10 @@ module.exports = function (grunt) {
                 files: ['<%= config.app %>/styles/{,*/}*.css'],
                 tasks: ['newer:copy:styles', 'autoprefixer']
             },
+            partials: {
+                files: ['app/partials/*'],
+                tasks: ['ngtemplates']
+            },
             livereload: {
                 options: {
                     livereload: '<%= connect.options.livereload %>'
@@ -88,6 +92,7 @@ module.exports = function (grunt) {
                     '.tmp/styles/{,*/}*.css',
                     '.tmp/scripts/{,*/}*.js',
                     '<%= config.app %>/images/{,*/}*'
+
                 ]
             }
         },
@@ -350,7 +355,7 @@ module.exports = function (grunt) {
             'app.template': {
                 cwd:  '<%= config.app %>/partials',
                 src:  '*.html',
-                dest: '<%= config.dist %>/scripts/template.js'
+                dest: '.tmp/scripts/template.js'
             }
         },
 
@@ -520,13 +525,13 @@ module.exports = function (grunt) {
 
     grunt.registerTask('build', [
         'clean:dist',
+        'ngtemplates',
         'useminPrepare',
         'concurrent:dist',
         'autoprefixer',
         'concat',
         'cssmin',
         'uglify',
-        'ngtemplates',
         'convert',
         'copy:dist',
         'modernizr',
