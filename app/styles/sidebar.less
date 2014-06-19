@@ -121,6 +121,10 @@
         .sidebar__banner {
             margin-top: -1px * @banner-reduce-gap;
 
+            .lt-ie9 &:after {
+                display: none;
+            }
+
             &__title {
                 margin-left: -1px * @sidebar-extented-width;
             }
