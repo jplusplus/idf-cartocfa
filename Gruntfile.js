@@ -471,7 +471,8 @@ module.exports = function (grunt) {
             server: [
                 'less:server',
                 'coffee:dist',
-                'copy:styles'
+                'copy:styles',
+                'ngtemplates'
             ],
             test: [
                 'coffee',
@@ -482,7 +483,8 @@ module.exports = function (grunt) {
                 'less:dist',
                 'copy:styles',
                 'imagemin',
-                'svgmin'
+                'svgmin',
+                'ngtemplates'
             ]
         }
     });
@@ -525,7 +527,6 @@ module.exports = function (grunt) {
 
     grunt.registerTask('build', [
         'clean:dist',
-        'ngtemplates',
         'useminPrepare',
         'concurrent:dist',
         'autoprefixer',

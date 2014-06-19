@@ -38,7 +38,6 @@ class MapCtrl
             rne = el.markerName
             # Create the popup view when is opened
             scope = @scope.$new()
-            @Dataset.getCfa(rne)
             # Add cfa to the new
             @Dataset.getCfa(rne).then (cfa)-> angular.extend scope, cfa: cfa
             # Get popup node
