@@ -6,11 +6,17 @@ class SidebarCtrl
         @shouldShowFilter = 'sector'
         @shouldShowSector =
         @bounds     =
+            wn: [1.232294, 49.256857]
+            es: [3.580622, 48.103566]
             ne: [49.256857, 3.580622]
             sw: [48.103566, 1.232294]
-        @gmapBounds = @bounds.sw.join(",") + "|" + @bounds.ne.join(",")
-        @gmapUrl    = "http://maps.googleapis.com/maps/api/geocode/json?region=fr&bounds="
-        @gmapUrl    = @gmapUrl + @gmapBounds
+        @gmapBounds = @bounds.wn.join(",") + "," + @bounds.es.join(",")
+        @gmapUrl    = "http://nominatim.openstreetmap.org/search?"
+        @gmapUrl   += "format=json&"
+        @gmapUrl   += "limit=10&"
+        @gmapUrl   += "bounded=1&"
+        @gmapUrl   += "osm_type=N&"
+        @gmapUrl   += "viewbox=#{@gmapBounds}&"
 
         # instantiate the bloodhound suggestion engine for places
         @placeEngine = new Bloodhound
@@ -24,26 +30,35 @@ class SidebarCtrl
             datumTokenizer: Bloodhound.tokenizers.obj.whitespace("value")
             queryTokenizer: Bloodhound.tokenizers.whitespace
             remote:
-                url: "#{@gmapUrl}&address=%QUERY"
-                filter: (data)=>
-                    _.filter data.results, (d)=> @inBounds(d.geometry.location)
+                dataType: "jsonp"
+                url: "#{@gmapUrl}q=%QUERY&json_callback=?"
+                filter: (data)->
+                    names = []
+                    filtered = []
+                    angular.forEach data, (d)->
+                        # Simplify display name
+                        d.display_name = d.display_name.replace ', France métropolitaine', ''
+                        d.display_name = d.display_name.replace ', France', ''
+                        d.display_name = d.display_name.replace ', Île-de-France', ''
+                        # Remove duplicated name
+                        unless names.indexOf(d.display_name) > -1
+                            # Add the place once
+                            filtered.push d
+                            # Record the name to aovid duplicated
+                            names.push d.display_name
+                    filtered
 
 
         # initialize the bloodhound suggestion engines
         @placeEngine.initialize()
         @addrEngine.initialize()
 
-        # Chech that the given location is in bound:
-        @inBounds = (location)=>
-            location.lat > @bounds.sw[0] and location.lat < @bounds.ne[0] and
-            location.lng > @bounds.sw[1] and location.lng < @bounds.ne[1]
-
         # ──────────────────────────────────────────────────────────────────────
         # Methods and attributes available within the scope
         # ──────────────────────────────────────────────────────────────────────
         @scope.places       = []
         @scope.addr         =
-            displayKey: 'formatted_address'
+            displayKey: 'display_name'
             source    : @addrEngine.ttAdapter()
         @scope.filters      = @Filters
         @scope.shouldShowFilter = (filter)=> @shouldShowFilter is filter
@@ -105,17 +120,17 @@ class SidebarCtrl
             angular.extend @Filters.centers.manual, @Filters.centers.default
             if @Dataset.markers.filtered['addr']?
                 delete @Dataset.markers.filtered['addr']
-        else if geo.geometry?
-            angular.extend @Filters.centers.manual, geo.geometry.location
+        else if geo.lon?
+            angular.extend @Filters.centers.manual, { lng: 1*geo.lon, lat: 1*geo.lat }
             angular.extend @Filters.centers.manual, zoom: 14
         else
             @getAddress(geo).then (results)=>
-                if results.length
-                    geometry = results[0].geometry
-                    angular.extend @Filters.centers.manual, geometry.location
-                    angular.extend @Filters.centers.manual, zoom: 14
-                else
-                    @scope.addrNotFound = yes
+                # Take the first results (wich is the most accurate)
+                geo = results[0]
+                angular.extend @Filters.centers.manual, { lng: 1*geo.lon, lat: 1*geo.lat }
+                angular.extend @Filters.centers.manual, zoom: 14
+            # Fail
+            , => @scope.addrNotFound = yes
 
     filterBy: (filter, value)=>
         value = value.name if value.name?
@@ -155,13 +170,13 @@ class SidebarCtrl
     getAddress: (value)=>
         deferred = do @q.defer
         return deferred.reject('No value') unless value?
-        # Use Google Map's API to geocode the given address
-        url = "#{@gmapUrl}&address=#{value}"
-        @http.get(url).then (res)=>
-            # Filter by the given bound
-            res = _.filter res.data.results, (d)=>@inBounds(d.geometry.location)
-            if res?
-                deferred.resolve res
+        # Object value
+        value = value.display_name if value.display_name?
+        # Use OSM API to geocode the given address
+        url = "#{@gmapUrl}&q=#{value}&json_callback=JSON_CALLBACK"
+        @http.jsonp(url).then (res)=>
+            if res.data.length
+                deferred.resolve res.data
             else
                 deferred.reject 'No result'
         return deferred.promise
