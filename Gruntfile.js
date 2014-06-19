@@ -85,7 +85,6 @@ module.exports = function (grunt) {
                     livereload: '<%= connect.options.livereload %>'
                 },
                 files: [
-                    '<%= config.app %>/{,*/}*.html',
                     '.tmp/styles/{,*/}*.css',
                     '.tmp/scripts/{,*/}*.js',
                     '<%= config.app %>/images/{,*/}*'
@@ -346,6 +345,15 @@ module.exports = function (grunt) {
             }
         },
 
+
+        ngtemplates:  {
+            'app.template': {
+                cwd:  '<%= config.app %>/partials',
+                src:  '*.html',
+                dest: '<%= config.dist %>/scripts/template.js'
+            }
+        },
+
         compress: {
             dist: {
                 options: {
@@ -406,7 +414,7 @@ module.exports = function (grunt) {
                     src: [
                         '*.{ico,png,txt}',
                         'images/{,*/}*.webp',
-                        '{,*/}*.html',
+                        '*.html',
                         'styles/fonts/{,*/}*.*'
                     ]
                 }, {
@@ -517,6 +525,7 @@ module.exports = function (grunt) {
         'autoprefixer',
         'concat',
         'cssmin',
+        'ngtemplates',
         'uglify',
         'convert',
         'copy:dist',

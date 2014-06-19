@@ -5,6 +5,7 @@ angular.module('app.controller',[])
 angular.module('app.directive', [])
 angular.module('app.filter',    [])
 angular.module('app.service',   [])
+angular.module('app.template',  [])
 
 app = angular.module 'app', [
     # Angular dependencies
@@ -25,5 +26,6 @@ app = angular.module 'app', [
     "app.filter"
     "app.service"
     "app.directive"
+    "app.template"
 ]
 # EOF
