@@ -125,7 +125,7 @@ angular.module("app.service").factory("Dataset", [
                     # Extract degree's details for this CFA
                     cfa.details = _.filter @details, (d)-> _.contains cfa.degrees, d.id
                     # Group by sector, filiere, level
-                    cfa.details = @getTree cfa.details
+                    cfa.details = @getTree cfa.details, yes
                     deferred.resolve(cfa)
                 return deferred.promise
 
@@ -160,25 +160,34 @@ angular.module("app.service").factory("Dataset", [
 
                 @tree = @tree.concat @getTree(data)
 
-            getTree: (data, filter)->
+            getTree: (data, full=no)->
                 tree = []
-                # Optional: filter the data
-                data = _.filter data, filter if filter?
-                sectors = _.uniq(_.pluck(data, 'sector') )
+                sectors = _.pluck(data, 'sector')
+                # Do not iterate several time on with those keys
+                sectorKeys  = {}
+                filiereKeys = {}
                 # First level: sector
                 for sector in sectors
+                    # Iterate on a sector once
+                    if sectorKeys[sector]? then continue else sectorKeys[sector] = 1
                     # Create a sector object
                     sectorObj    = name: sector, filieres: []
                     # Get degrees for this sector
                     degreesBySector = _.where(data, 'sector': sector)
                     # Extract filieres for this sector
-                    filieresBySector = _.uniq( _.pluck(degreesBySector, 'filiere') )
+                    filieresBySector = _.pluck(degreesBySector, 'filiere')
 
                     for filiere in filieresBySector
-                        # Get degrees for this filiere
-                        degreesByFiliere = _.where(degreesBySector, 'filiere': filiere)
+                        # Iterate on a filiere once
+                        if filiereKeys[filiere]? then continue else filiereKeys[filiere] = 1
+                        # Save degrees only in full mode
+                        if full
+                            # Get degrees for this filiere
+                            degreesByFiliere = _.where(degreesBySector, 'filiere': filiere)
+                        else
+                            degreesByFiliere = []
                         # Extract levels for this filiere
-                        levelsByFiliere = _.uniq( _.pluck(degreesByFiliere, 'level') )
+                        levelsByFiliere = _.pluck(degreesByFiliere, 'level')
 
                         # Create filiere obj to append to sector's filieres
                         sectorObj.filieres.push
