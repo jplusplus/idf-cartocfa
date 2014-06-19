@@ -44,33 +44,25 @@ angular.module("app.service").factory("Dataset", [
             crossData: (isLoaded)=>
                 # Only if the data are loaded
                 if isLoaded
-                    # Look into each marker
-                    for own rne, marker of @markers.all
-                        # Filter to only keep degrees related to this place
-                        degrees = _.where @degrees, rne: rne
-                        # Only keep degree id
-                        marker.degrees = _.pluck degrees, "id"
-                        # Extract data about this place from the 1st degree
-                        # (data aren't atomic)
-                        if degrees.length
-                            # Extract address from the first degreee
-                            angular.extend marker, degrees[0]
-                            # Extract name too
-                            marker.name    = degrees[0].name
-                            marker.message = marker.name
-                            marker.slug    = @slugify(marker.name)
-                        # Extract individuals (sector, level, filiere)
-                        # for this places and according its degrees
-                        angular.forEach degrees, (degree)=>
+                    angular.forEach @degrees, (degree)=>
+                        marker = @markers.all[degree.rne]
+                        # A marker with this RNE exists
+                        if marker?
                             # Find details of the given degree
                             details = @detailsById[degree.id]
-                            # Records individuals
-                            unless _.contains(marker.sectors, details.sector)
-                                marker.sectors.push(details.sector)
-                            unless _.contains(marker.filieres, details.filiere)
-                                marker.filieres.push(details.filiere)
-                            unless _.contains(marker.levels, details.level)
-                                marker.levels.push(details.level)
+                            # First time on this marker
+                            unless marker.slug?
+                                # Extract address from the first degreee
+                                angular.extend marker, degree
+                                # Extract name too
+                                marker.name    = degree.name
+                                marker.message = marker.name
+                                marker.slug    = @slugify marker.name
+                            # Add the degree to this sector
+                            marker.sectors.push  details.sector
+                            marker.filieres.push details.filiere
+                            marker.levels.push   details.level
+                            marker.degrees.push  degree.id
                     # Resolve the promise
                     do @deferred.resolve
 
@@ -121,11 +113,11 @@ angular.module("app.service").factory("Dataset", [
             getCfa: (rne)=>
                 deferred = do $q.defer
                 @deferred.promise.then =>
-                    cfa = _.findWhere @markers.all, rne: rne
+                    cfa = @markers.all[rne]
                     # Extract degree's details for this CFA
                     cfa.details = _.filter @details, (d)-> _.contains cfa.degrees, d.id
                     # Group by sector, filiere, level
-                    cfa.details = @getTree cfa.details, yes
+                    cfa.details = @getTree cfa.details
                     deferred.resolve(cfa)
                 return deferred.promise
 
@@ -160,7 +152,7 @@ angular.module("app.service").factory("Dataset", [
 
                 @tree = @tree.concat @getTree(data)
 
-            getTree: (data, full=no)->
+            getTree: (data)->
                 tree = []
                 sectors = _.pluck(data, 'sector')
                 # Do not iterate several time on with those keys
@@ -180,15 +172,10 @@ angular.module("app.service").factory("Dataset", [
                     for filiere in filieresBySector
                         # Iterate on a filiere once
                         if filiereKeys[filiere]? then continue else filiereKeys[filiere] = 1
-                        # Save degrees only in full mode
-                        if full
-                            # Get degrees for this filiere
-                            degreesByFiliere = _.where(degreesBySector, 'filiere': filiere)
-                        else
-                            degreesByFiliere = []
+                        # Get degrees for this filiere
+                        degreesByFiliere = _.where(degreesBySector, 'filiere': filiere)
                         # Extract levels for this filiere
-                        levelsByFiliere = _.pluck(degreesByFiliere, 'level')
-
+                        levelsByFiliere = _.uniq _.pluck(degreesByFiliere, 'level')
                         # Create filiere obj to append to sector's filieres
                         sectorObj.filieres.push
                             name   : filiere
