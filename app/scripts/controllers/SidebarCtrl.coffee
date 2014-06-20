@@ -21,7 +21,7 @@ class SidebarCtrl
         # instantiate the bloodhound suggestion engine for places
         @placeEngine = new Bloodhound
             datumTokenizer: (d) ->
-                Bloodhound.tokenizers.whitespace (d.rne or "") + " " + (d.name or "")
+                Bloodhound.tokenizers.whitespace (d.rne or "") + " " + ((d.name or "").replace /\W/g, " ")
             queryTokenizer: Bloodhound.tokenizers.whitespace
             local: []
 
@@ -56,7 +56,9 @@ class SidebarCtrl
         # ──────────────────────────────────────────────────────────────────────
         # Methods and attributes available within the scope
         # ──────────────────────────────────────────────────────────────────────
-        @scope.places       = []
+        @scope.places       =
+            displayKey: 'name'
+            source    : @placeEngine.ttAdapter()
         @scope.addr         =
             displayKey: 'display_name'
             source    : @addrEngine.ttAdapter()
@@ -97,10 +99,6 @@ class SidebarCtrl
                 # Remove any previous dataset
                 @placeEngine.clear()
                 @placeEngine.add(places)
-                # Bind placeEngine to the scope
-                @scope.places =
-                    displayKey: 'name',
-                    source: @placeEngine.ttAdapter()
 
                 # Update notfound messages
                 @scope.placeNotFound = @shouldShowFilter is 'name' and _.isEmpty(@Dataset.markers.filtered)
